@@ -42,31 +42,22 @@ namespace TAiO
             //wybor pierwszego kawalka 
             var startingPiecePoint = piece[0];
 
-            foreach (var pieceSegment in piece.Segments.Where(a => a != startingPiecePoint))
+            var boardPieceLocation = piece.GetBoardLocation(segment.Location);
+            foreach (var boardLocation in boardPieceLocation)
             {
-                //odleglosc segmentow klocka od segmentu wyroznionego
-                var xDiff = startingPiecePoint.X - pieceSegment.X;
-                var yDiff = startingPiecePoint.Y - pieceSegment.Y;
-
-                //polozenie segmentu zmapowane na plansze
-                var targetX = segment.Location.X + xDiff;
-                var targetY = segment.Location.Y + yDiff;
                 if (
-                    targetX < 0 ||
-                    targetX >= board.Size ||
-                    targetY < 0 ||
-                    targetY >= board.Size
+                    boardLocation.X < 0 ||
+                    boardLocation.X >= board.Size ||
+                    boardLocation.Y < 0 ||
+                    boardLocation.Y >= board.Size ||
+                    //segment jest juz zajety
+                    board[boardLocation.X, boardLocation.Y].Value != 0
                 )
                 {
                     return false;
                 }
-
-                //segment jest juz zajety
-                if (board[targetX, targetY].Value != 0)
-                {
-                    return false;
-                }
             }
+           
             return true;
         }
     }

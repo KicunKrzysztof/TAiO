@@ -4,12 +4,14 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using System.Threading;
 using Algorithm;
+using Algorithm.Model;
 
 namespace TAiO
 {
@@ -47,9 +49,16 @@ namespace TAiO
         private void button1_Click(object sender, EventArgs e)
         {
             PiecesGenerator generator = new PiecesGenerator();
-            var matrix = generator.GetRandomSequenceMatrix(10, 5);
-            
-            tetrisMatrix1.PutMatrix(matrix);
+            var pieces = generator.GeneratePieces(2, 4);
+            var solutionFinder = new SmallestSquareOptimalFinder();
+
+            var solutions = solutionFinder.CalculateSolutions(pieces);
+            var solution = solutions.FirstOrDefault();
+
+            if (solution != null)
+            {
+                tetrisMatrix1.PutMatrix(solution);
+            }
         }
     }
 }

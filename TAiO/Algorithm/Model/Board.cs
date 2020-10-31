@@ -27,17 +27,4 @@ namespace Algorithm.Model
 
         public BoardSegment this[int index1, int index2] => Segments[index1, index2];
     }
-
-    public class BoardSegment
-    {
-        public Point Location { get; set; }
-        public BoardSegment(int x, int y)
-        {
-            Location = new Point(x,y);
-            Value = 0;
-        }
-        /// 0 jesli pusty, id klocka w przeciwnym wypadku
-        /// </summary>
-        public int Value { get; set; }
-    }
 }
