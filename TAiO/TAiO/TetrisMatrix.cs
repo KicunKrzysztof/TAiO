@@ -37,8 +37,8 @@ namespace TAiO
             //SolidBrush myBrush = new SolidBrush(Color.FromArgb(0,0,0));
             pe.Graphics.FillRectangle(myBrush, new Rectangle(0, 0, Size.Width, Size.Height));
             myBrush.Dispose();
-
-            int delta = Size.Height / _matrix.GetLength(0);
+          
+            int delta = Size.Height / Math.Max(_matrix.GetLength(0), _matrix.GetLength(1));
             int y = 0, x = 0, a = delta*_matrix.GetLength(0);
 
             GenerateColors();
