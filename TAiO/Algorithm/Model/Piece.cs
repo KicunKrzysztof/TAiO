@@ -17,10 +17,6 @@ namespace Algorithm.Model
 
         public Point this[int index] => Segments[index];
 
-        public void RotateRight()
-        {
-            //TODO 
-        }
     }
 
     public static class PieceExtensions
@@ -39,5 +35,7 @@ namespace Algorithm.Model
             var yDiff = startingPiecePoint.Y - firstSegmentLocation.Y;
             return piece.Segments.Select(a => new Point(a.X + xDiff, a.Y + yDiff)).ToList();
         }
+
+     
     }
 }

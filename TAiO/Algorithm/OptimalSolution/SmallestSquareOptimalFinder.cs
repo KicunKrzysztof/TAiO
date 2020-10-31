@@ -12,7 +12,6 @@ namespace TAiO
     {
 
         private readonly PieceLocationFinder pieceLocationFinder = new PieceLocationFinder();
-        
 
         public List<int[,]> CalculateSolutions(List<Piece> pieces)
         {
@@ -25,18 +24,20 @@ namespace TAiO
             var solutions = new List<int[,]>();
             var boardSize = CalculateInitialBoardSize(pieces);
             do
-         {
-             var board = new Board(boardSize);
+            {
+                var board = new Board(boardSize);
                 F(board, pieces, 0, solutions);
                 boardSize++;
-          } while (!solutions.Any());
+            } while (!solutions.Any());
 
             return solutions;
         }
+
+        #region Private methods
         private int CalculateInitialBoardSize(List<Piece> pieces)
         {
             var piecesArea = pieces.Aggregate(0, (area, piece) => area + piece.Size);
-            return (int) Math.Ceiling(Math.Sqrt(piecesArea));
+            return (int)Math.Ceiling(Math.Sqrt(piecesArea));
         }
 
         private bool arePiecesValid(List<Piece> pieces)
@@ -85,5 +86,7 @@ namespace TAiO
                 board[boardLocation.X, boardLocation.Y].Value = pieceValue;
             }
         }
+
+        #endregion
     }
 }

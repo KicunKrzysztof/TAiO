@@ -20,9 +20,8 @@ namespace TAiO
             {
                 for (int j = 0; j < board.Size; j++)
                 {
-                    var currentBoardSegment = board[i, j];
                     //F.4
-                    if (IsLocationAvailable(board, currentBoardSegment, currentPiece))
+                    if (IsLocationAvailable(board, board[i,j].Location, currentPiece))
                     {
                         availableLocations.Add(new Point(i, j));
                     }
@@ -32,17 +31,14 @@ namespace TAiO
             return availableLocations;
         }
 
-        private bool IsLocationAvailable(Board board, BoardSegment segment, Piece piece)
+        private bool IsLocationAvailable(Board board, Point location, Piece piece)
         {
-            if (segment.Value != 0)
+            if (board[location.X, location.Y].Value != 0)
             {
                 return false;
             }
-            // F.3 - wybierz dowolny segment s klocka k
-            //wybor pierwszego kawalka 
-            var startingPiecePoint = piece[0];
 
-            var boardPieceLocation = piece.GetBoardLocation(segment.Location);
+            var boardPieceLocation = piece.GetBoardLocation(location);
             foreach (var boardLocation in boardPieceLocation)
             {
                 if (
@@ -50,7 +46,7 @@ namespace TAiO
                     boardLocation.X >= board.Size ||
                     boardLocation.Y < 0 ||
                     boardLocation.Y >= board.Size ||
-                    //segment jest juz zajety
+                    //location jest juz zajety
                     board[boardLocation.X, boardLocation.Y].Value != 0
                 )
                 {
