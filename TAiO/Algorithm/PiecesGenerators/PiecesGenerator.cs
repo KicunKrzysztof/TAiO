@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Algorithm.Model;
 using Algorithm.PiecesGenerators;
 
 namespace Algorithm
@@ -29,7 +30,7 @@ namespace Algorithm
         /// <param name="piecesCount">Liczba klocków do wygenerowania</param>
         /// <param name="pieceSize">Rozmiar klocków do wygenerowania</param>
         /// <returns></returns>
-        public List<Point[]> GeneratePieces(int piecesCount, int pieceSize)
+        public List<Piece> GeneratePieces(int piecesCount, int pieceSize)
         {
             var pieces = new List<Point[]>();
 
@@ -46,7 +47,7 @@ namespace Algorithm
                 }
                 pieces.Add(piece);
             }
-            return pieces;
+            return pieces.Select(segments => new Piece(segments.ToList())).ToList();
         }
         /// <summary>
         /// Do testowania generowania. Mozna usunac pozniej
@@ -62,7 +63,7 @@ namespace Algorithm
             for (int i = 0; i < piecesCount; i++)
             {
                 var currentStart = i * piecesSize;
-                foreach (var piece in pieces[i])
+                foreach (var piece in pieces[i].Segments)
                 {
                     board[currentStart + piece.X, currentStart + piece.Y] = i + 1;
                 }
