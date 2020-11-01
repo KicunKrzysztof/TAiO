@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Algorithm;
 using Algorithm.Model;
 
@@ -21,13 +22,14 @@ namespace TAiO
                 for (int j = 0; j < board.Size; j++)
                 {
                     //F.4
-                    if (IsLocationAvailable(board, board[i,j].Location, currentPiece))
+                    if (IsLocationAvailable(board, board[i, j].Location, currentPiece))
                     {
                         availableLocations.Add(new Point(i, j));
                     }
                 }
             }
 
+            Task.WaitAll();
             return availableLocations;
         }
 
@@ -53,7 +55,7 @@ namespace TAiO
                     return false;
                 }
             }
-           
+
             return true;
         }
     }

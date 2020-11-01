@@ -10,37 +10,50 @@ namespace TAiO
 {
     public class SmallestSquareOptimalFinder
     {
+        public SmallestSquareOptimalFinder(List<Piece> pieces)
+        {
+            this.pieces = pieces;
+        }
 
+        private List<Piece> pieces;
+        public Board Board { get; private set; }
+
+        public EventHandler OnBoardUpdate;
+        public List<int[,]> Solutions = new List<int[,]>();
+        /// <summary>
+        /// zapisuje informacje o ulozeniu klockow w danym rozwiazaniu - do sprawdzenia czy juz znalezlismy takie rozwiazanie
+        /// </summary>
+        public List<(int pieceIndex, Point firstElementLocation, int rotation)> solutionNiemampomyslunanazwe;
         private readonly PieceLocationFinder pieceLocationFinder = new PieceLocationFinder();
 
-        public List<int[,]> CalculateSolutions(List<Piece> pieces)
+        public List<int[,]> CalculateSolutions()
         {
-            if (!arePiecesValid(pieces))
+            if (!arePiecesValid())
             {
                 throw new Exception("Invalid input");
             }
 
             //1.1
-            var solutions = new List<int[,]>();
-            var boardSize = CalculateInitialBoardSize(pieces);
+            Solutions = new List<int[,]>();
+            var boardSize = CalculateInitialBoardSize();
             do
             {
-                var board = new Board(boardSize);
-                F(board, pieces, 0, solutions);
+                Board = new Board(boardSize);
+                F(0, Solutions);
                 boardSize++;
-            } while (!solutions.Any());
+            } while (!Solutions.Any());
 
-            return solutions;
+            return Solutions;
         }
 
         #region Private methods
-        private int CalculateInitialBoardSize(List<Piece> pieces)
+        private int CalculateInitialBoardSize()
         {
             var piecesArea = pieces.Aggregate(0, (area, piece) => area + piece.Size);
             return (int)Math.Ceiling(Math.Sqrt(piecesArea));
         }
 
-        private bool arePiecesValid(List<Piece> pieces)
+        private bool arePiecesValid()
         {
             if (pieces == null)
             {
@@ -56,11 +69,11 @@ namespace TAiO
             return pieces.All(a => a.Size == firstPieceSize);
         }
 
-        private void F(Board board, List<Piece> pieces, int pieceIndex, List<int[,]> solutions)
+        private void F(int pieceIndex, List<int[,]> Solutions)
         {
             if (pieceIndex >= pieces.Count)
             {
-                solutions.Add(board.Segments.ToPrintableMatrix());
+                Solutions.Add(Board.Segments.ToPrintableMatrix());
                 return;
             }
 
@@ -68,22 +81,37 @@ namespace TAiO
             //F.1
             int rotationsCounter = 0;
             //F.2 - F.4
-            var availableLocations = pieceLocationFinder.GetAvailableLocations(board, currentPiece);
+            
 
-            foreach (var availableLocation in availableLocations)
+            for (int i = 0; i < 4; i++)
             {
-                SetPieceOnBoard(board, availableLocation, currentPiece, pieceIndex + 1);
-                F(board, pieces, pieceIndex + 1, solutions);
-                SetPieceOnBoard(board, availableLocation, currentPiece, 0);
+                var availableLocations = pieceLocationFinder.GetAvailableLocations(Board, currentPiece);
+                foreach (var availableLocation in availableLocations)
+                {
+
+                    SetPieceOnBoard(availableLocation, currentPiece, pieceIndex + 1);
+                    // Board.ToConsole();
+                    F(pieceIndex + 1, Solutions);
+                    SetPieceOnBoard(availableLocation, currentPiece, 0);
+                    //Board.ToConsole();
+                }
+                currentPiece = currentPiece.RotateRight();
             }
+            
         }
 
-        private void SetPieceOnBoard(Board board, Point location, Piece piece, int pieceValue)
+        private void SetPieceOnBoard(Point location, Piece piece, int pieceValue)
         {
+            
+
+           // var copy = Board.Segments.ToPrintableMatrix().Clone() as int[,]; 
+           //OnBoardUpdate?.Invoke(copy, null);
+
+
             var pieceBoardLocation = piece.GetBoardLocation(location);
             foreach (var boardLocation in pieceBoardLocation)
             {
-                board[boardLocation.X, boardLocation.Y].Value = pieceValue;
+                Board[boardLocation.X, boardLocation.Y].Value = pieceValue;
             }
         }
 

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -24,7 +25,6 @@ namespace TAiO
         {
             _matrix = matrix;
             this.Invalidate();
-            Console.WriteLine("kutas");
         }
 
         protected override void OnPaint(PaintEventArgs pe)
@@ -65,7 +65,6 @@ namespace TAiO
             //Pen myPen = new Pen(Color.Aqua);
             //pe.Graphics.DrawRectangle(myPen, new Rectangle(this.Location,
             //   this.Size));
-            Console.WriteLine("dupa");
 
         }
         private void InitMatrix()
@@ -91,12 +90,31 @@ namespace TAiO
                         intSet.Add(_matrix[i, j]);
                     }
                 }
+
+            var colors = new List<Color>
+            {
+                Color.Red,
+                Color.Blue,
+                Color.Green,
+                Color.Orange,
+                Color.Purple,
+                Color.Brown,
+                Color.Black,
+                Color.Pink
+
+            };
+
+            colors.AddRange(typeof(Color).GetProperties(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.Public)
+                .Select(c => (Color)c.GetValue(null, null))
+                .ToList());
+
             int delta = 255 / (intSet.Count + 1);//"+1" to avoid generating white color
             int r = 255 - delta; //to avoid generating white color
             _colors.Add(Color.White);
             for (int i = 1; i<intSet.Count; i++)
             {
-                _colors.Add(Color.FromArgb(r, rand.Next(255), rand.Next(255)));
+                _colors.Add(colors[i]);
+               // _colors.Add(Color.FromArgb(r, rand.Next(255), rand.Next(255)));
                 r -= delta;
             }
         }

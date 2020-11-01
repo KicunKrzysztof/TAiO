@@ -27,4 +27,23 @@ namespace Algorithm.Model
 
         public BoardSegment this[int index1, int index2] => Segments[index1, index2];
     }
+
+    public static class BoardExt
+    {
+        public static void ToConsole(this Board board)
+        {
+            var segments = board.Segments;
+            Console.WriteLine("########");
+            
+            for (int i = 0; i < board.Size; i++)
+            {
+                Console.WriteLine();
+                for (int j = 0; j < board.Size; j++)
+                {
+                    Console.Write($" {segments[i,j].Value}");
+                }
+            }
+            Console.WriteLine();
+        }
+    }
 }

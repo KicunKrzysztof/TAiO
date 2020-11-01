@@ -1,4 +1,6 @@
-﻿namespace Algorithm.Model
+﻿using System;
+
+namespace Algorithm.Model
 {
     public class BoardSegment
     {
@@ -20,6 +22,7 @@
             var size = board.GetLength(0);
             int[,] matrix = new int[size,size];
 
+            
             for (int i = 0; i < size; i++)
             {
                 for (int j = 0; j < size; j++)
@@ -27,8 +30,11 @@
                     matrix[i,j] = board[i, j].Value;
                 }
             }
-
+            
             return matrix;
         }
+
+
+       
     }
 }

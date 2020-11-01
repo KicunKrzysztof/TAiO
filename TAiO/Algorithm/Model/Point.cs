@@ -15,6 +15,11 @@ namespace Algorithm
         public int X { get; set; }
         public int Y { get; set; }
 
+        public override string ToString()
+        {
+            return $"[{X},{Y}]";
+        }
+
         public override bool Equals(Object obj)
         {
             if ((obj == null) || !this.GetType().Equals(obj.GetType()))
