@@ -14,6 +14,7 @@ using System.Threading;
 using Algorithm;
 using Algorithm.Model;
 using Point = Algorithm.Point;
+using Algorithm.Heuristic;
 
 namespace TAiO
 {
@@ -56,7 +57,7 @@ namespace TAiO
         private void button1_Click(object sender, EventArgs e)
         {
             PiecesGenerator generator = new PiecesGenerator();
-            var pieces = generator.GeneratePieces(7, 4);
+            var pieces = generator.GeneratePieces(3, 4);
 
             //var pieces = new List<Piece>
             //{
@@ -89,16 +90,23 @@ namespace TAiO
             //    //    new Point(0,0)
             //    //}),
             //};
-            var solutionFinder = new SmallestSquareOptimalFinder(pieces);
+            //var solutionFinder = new SmallestSquareOptimalFinder(pieces);
 
+            //List<int[,]> boards = new List<int[,]>();
+            //solutionFinder.OnBoardUpdate += (o, args) =>
+            //{
+            //    boards.Add((int[,])o);
+            //};
+
+            
+
+            var solutionFinder = new SmallestSquareOptimalFinder(pieces);
             List<int[,]> boards = new List<int[,]>();
             solutionFinder.OnBoardUpdate += (o, args) =>
             {
                 boards.Add((int[,])o);
             };
-
             var solutions = solutionFinder.CalculateSolutions();
-           
 
             if (solutions != null)
             {
@@ -108,6 +116,13 @@ namespace TAiO
                     Task.Delay(300).Wait();
                 }
             }
+
+            //var solutionFinderHeuristic = new SmallestSquareHeuristic(pieces);
+            //var solution = solutionFinderHeuristic.CalculateSolution();
+            //if (solution != null)
+            //{
+            //    tetrisMatrix1.PutMatrix(solution);
+            //}
         }
     }
 }

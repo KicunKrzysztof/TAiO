@@ -81,6 +81,30 @@ namespace Algorithm.Model
 
             return new Piece(rotatedSegments.ToList());
         }
-     
+        public static Point FindFirstLocationHeuristic(this Piece piece)
+        {
+            bool is_on_board = true;
+            int x_shift = 0, y_shift = 0;
+            do
+            {
+                x_shift++;
+                foreach (Point p in piece.Segments)
+                {
+                    if (p.X - x_shift < 0)
+                        is_on_board = false;
+                }
+            } while (is_on_board);
+            is_on_board = true;
+            do
+            {
+                y_shift++;
+                foreach (Point p in piece.Segments)
+                {
+                    if (p.Y - y_shift < 0)
+                        is_on_board = false;
+                }
+            } while (is_on_board);
+            return new Point(piece.Segments[0].X - x_shift + 1, piece.Segments[0].Y - y_shift + 1);
+        }
     }
 }
