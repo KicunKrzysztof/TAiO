@@ -12,6 +12,37 @@ namespace TAiO
         public List<int[,]> Run(AlgorithmType algorithmType, int pieceSize, int pieceCount)
         {
             var pieces = piecesGenerator.GeneratePieces(pieceCount, pieceSize);
+            //var pieces = new List<Piece>
+            //{
+            //    new Piece(new List<Point>()
+            //    {
+            //        new Point(1,1),
+            //        new Point(0,1),
+            //        new Point(0,2),
+            //        new Point(0,3)
+            //    }),
+            //    new Piece(new List<Point>()
+            //    {
+            //        new Point(1,1),
+            //        new Point(1,2),
+            //        new Point(2,1),
+            //        new Point(2,2)
+            //    }),
+            //    new Piece(new List<Point>()
+            //    {
+            //        new Point(0,1),
+            //        new Point(0,2),
+            //        new Point(0,3),
+            //        new Point(1,2)
+            //    }),
+            //    new Piece(new List<Point>()
+            //    {
+            //        new Point(0,0),
+            //        new Point(1,0),
+            //        new Point(2,0),
+            //        new Point(3,0)
+            //    }),
+            //};
             var smallestSquareFinder = AlghoritmMapper.Map(algorithmType);
             smallestSquareFinder.Pieces = pieces;
             var solutions = smallestSquareFinder.CalculateSolutions();

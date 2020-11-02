@@ -19,6 +19,7 @@ namespace TAiO
         {
             InitializeComponent();
             InitMatrix();
+            GenerateColors();
         }
 
         public void PutMatrix(int [,] matrix)
@@ -30,18 +31,8 @@ namespace TAiO
         protected override void OnPaint(PaintEventArgs pe)
         {
             base.OnPaint(pe);
-
-            //Bitmap btm = new Bitmap(this.Size.Width, this.Size.Height);
-
-            SolidBrush myBrush = new SolidBrush(Color.White);
-            //SolidBrush myBrush = new SolidBrush(Color.FromArgb(0,0,0));
-            pe.Graphics.FillRectangle(myBrush, new Rectangle(0, 0, Size.Width, Size.Height));
-            myBrush.Dispose();
-          
             int delta = Size.Height / Math.Max(_matrix.GetLength(0), _matrix.GetLength(1));
             int y = 0, x = 0, a = delta*_matrix.GetLength(0);
-
-            GenerateColors();
             List<SolidBrush> brushes = new List<SolidBrush>();
             for (int i = 0; i < _colors.Count; i++)
                 brushes.Add(new SolidBrush(_colors[i]));
@@ -62,10 +53,6 @@ namespace TAiO
             }
             pen.Dispose();
 
-            //Pen myPen = new Pen(Color.Aqua);
-            //pe.Graphics.DrawRectangle(myPen, new Rectangle(this.Location,
-            //   this.Size));
-
         }
         private void InitMatrix()
         {
@@ -79,18 +66,6 @@ namespace TAiO
 
         private void GenerateColors()
         {
-            Random rand = new Random();
-            _colors = new List<Color>();
-            HashSet<int> intSet = new HashSet<int>();
-            for (int i = 0; i < _matrix.GetLength(0); i++)
-                for (int j = 0; j < _matrix.GetLength(0); j++)
-                {
-                    if (!intSet.Contains(_matrix[i, j]))
-                    {
-                        intSet.Add(_matrix[i, j]);
-                    }
-                }
-
             var colors = new List<Color>
             {
                 Color.Red,
@@ -100,23 +75,103 @@ namespace TAiO
                 Color.Purple,
                 Color.Brown,
                 Color.Black,
-                Color.Pink
-
+                Color.Magenta,
+                Color.Aqua,
+                Color.BlueViolet,
+                Color.Chartreuse,
+                Color.Chocolate,
+                Color.Coral,
+                Color.Crimson,
+                Color.DarkBlue,
+                Color.DarkCyan,
+                Color.DarkGoldenrod,
+                Color.DarkGray,
+                Color.DarkGreen,
+                Color.DarkOrange,
+                Color.DarkRed,
+                Color.DarkSlateBlue,
+                Color.DeepPink,
+                Color.DodgerBlue,
+                Color.Firebrick,
+                Color.DarkViolet,
+                Color.ForestGreen,
+                Color.Gold,
+                Color.Goldenrod,
+                Color.GreenYellow,
+                Color.IndianRed,
+                Color.Indigo,
+                Color.LawnGreen,
+                Color.LightSeaGreen,
+                Color.Lime,
+                Color.LimeGreen,
+                Color.Maroon,
+                Color.MediumBlue,
+                Color.MediumVioletRed,
+                Color.MidnightBlue,
+                Color.Navy,
+                Color.Olive,
+                Color.Yellow,
+                Color.Tomato,
+                Color.Teal,
+                Color.SpringGreen,
+                Color.Sienna,
+                Color.SaddleBrown,
+                //-------------------same:
+                Color.Red,
+                Color.Blue,
+                Color.Green,
+                Color.Orange,
+                Color.Purple,
+                Color.Brown,
+                Color.Black,
+                Color.Magenta,
+                Color.Aqua,
+                Color.BlueViolet,
+                Color.Chartreuse,
+                Color.Chocolate,
+                Color.Coral,
+                Color.Crimson,
+                Color.DarkBlue,
+                Color.DarkCyan,
+                Color.DarkGoldenrod,
+                Color.DarkGray,
+                Color.DarkGreen,
+                Color.DarkOrange,
+                Color.DarkRed,
+                Color.DarkSlateBlue,
+                Color.DeepPink,
+                Color.DodgerBlue,
+                Color.Firebrick,
+                Color.DarkViolet,
+                Color.ForestGreen,
+                Color.Gold,
+                Color.Goldenrod,
+                Color.GreenYellow,
+                Color.IndianRed,
+                Color.Indigo,
+                Color.LawnGreen,
+                Color.LightSeaGreen,
+                Color.Lime,
+                Color.LimeGreen,
+                Color.Maroon,
+                Color.MediumBlue,
+                Color.MediumVioletRed,
+                Color.MidnightBlue,
+                Color.Navy,
+                Color.Olive,
+                Color.Yellow,
+                Color.Tomato,
+                Color.Teal,
+                Color.SpringGreen,
+                Color.Sienna,
+                Color.SaddleBrown
             };
-
             colors.AddRange(typeof(Color).GetProperties(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.Public)
                 .Select(c => (Color)c.GetValue(null, null))
                 .ToList());
-
-            int delta = 255 / (intSet.Count + 1);//"+1" to avoid generating white color
-            int r = 255 - delta; //to avoid generating white color
+            _colors = new List<Color>();
             _colors.Add(Color.White);
-            for (int i = 1; i<intSet.Count; i++)
-            {
-                _colors.Add(colors[i]);
-               // _colors.Add(Color.FromArgb(r, rand.Next(255), rand.Next(255)));
-                r -= delta;
-            }
+            _colors.AddRange(colors);
         }
     }
 }

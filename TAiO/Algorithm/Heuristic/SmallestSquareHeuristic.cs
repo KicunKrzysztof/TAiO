@@ -20,13 +20,8 @@ namespace Algorithm.Heuristic
             {
                 return new List<int[,]>();
             }
-            foreach (Piece p in Pieces)
-            {
-                Console.WriteLine(p.ToString());
-            }
             Board = new Board(CalculateInitialBoardSize());
             SetFirstPiece();
-            BoardExt.ToConsole(Board);
             for (int i = 1; i < Pieces.Count; i++)
             {
                 int r = 0;
@@ -34,9 +29,9 @@ namespace Algorithm.Heuristic
                 while (true)
                 {
                     L = L.Concat(locationFinder.FindPossibleLocations(Board, Pieces[i], r)).ToList();
-                    Pieces[i].RotateRight();
+                    Pieces[i] = Pieces[i].RotateRight();
                     r++;
-                    if (r == 3)
+                    if (r == 4)
                     {
                         if (L.Count > 0)
                         {
@@ -51,9 +46,11 @@ namespace Algorithm.Heuristic
                 }
                 var best_location = L.Max();
                 for (int k = 0; k < best_location.RotationCounter; k++)
-                    Pieces[i].RotateRight();
+                {
+                    Pieces[i] = Pieces[i].RotateRight();
+                }
+                    
                 SetPiece(Pieces[i], best_location.Segment, i + 1);
-                BoardExt.ToConsole(Board);
             }
 
             return new List<int[,]> { Board.Segments.ToPrintableMatrix() };
