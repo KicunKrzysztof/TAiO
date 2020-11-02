@@ -20,10 +20,7 @@ namespace TAiO
 {
     public partial class Form1 : Form
     {
-        [DllImport("kernel32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool AllocConsole();
-
+        private readonly AlghoritmRunner alghoritmRunner = new AlghoritmRunner();
         private static readonly int[,] SampleMatrix =
         {
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -50,79 +47,33 @@ namespace TAiO
         };
         public Form1()
         {
-            AllocConsole();
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+
+
+        private void optimalButton(object sender, EventArgs e)
         {
-            PiecesGenerator generator = new PiecesGenerator();
-            var pieces = generator.GeneratePieces(3, 4);
+            Start(AlgorithmType.Optimal);
+        }
 
-            //var pieces = new List<Piece>
-            //{
-            //    new Piece(new List<Point>()
-            //    {
-            //        new Point(1,1),
-            //        new Point(0,1),
-            //        new Point(0,2),
-            //        new Point(0,3)
-            //    }),
-            //    //new Piece(new List<Point>()
-            //    //{
-            //    //    new Point(1,1),
-            //    //    new Point(1,2),
-            //    //    new Point(2,1),
-            //    //    new Point(2,2)
-            //    //}),
-            //    new Piece(new List<Point>()
-            //    {
-            //        new Point(0,1),
-            //        new Point(0,2),
-            //        new Point(0,3),
-            //        new Point(1,2)
-            //    }),
-            //    //new Piece(new List<Point>()
-            //    //{
-            //    //    new Point(0,0),
-            //    //    new Point(0,0),
-            //    //    new Point(0,0),
-            //    //    new Point(0,0)
-            //    //}),
-            //};
-            //var solutionFinder = new SmallestSquareOptimalFinder(pieces);
+        private void heuristicButton(object sender, EventArgs e)
+        {
+            Start(AlgorithmType.Heuristic);
+        }
 
-            //List<int[,]> boards = new List<int[,]>();
-            //solutionFinder.OnBoardUpdate += (o, args) =>
-            //{
-            //    boards.Add((int[,])o);
-            //};
-
-            
-
-            var solutionFinder = new SmallestSquareOptimalFinder(pieces);
-            List<int[,]> boards = new List<int[,]>();
-            solutionFinder.OnBoardUpdate += (o, args) =>
-            {
-                boards.Add((int[,])o);
-            };
-            var solutions = solutionFinder.CalculateSolutions();
-
-            if (solutions != null)
+        private void Start(AlgorithmType type)
+        {
+            var solutions = alghoritmRunner.Run(type, (int)numericUpDown1.Value, (int)numericUpDown2.Value);
+            Task.Run((() =>
             {
                 foreach (var solution in solutions)
                 {
                     tetrisMatrix1.PutMatrix(solution);
                     Task.Delay(300).Wait();
                 }
-            }
+            }));
 
-            //var solutionFinderHeuristic = new SmallestSquareHeuristic(pieces);
-            //var solution = solutionFinderHeuristic.CalculateSolution();
-            //if (solution != null)
-            //{
-            //    tetrisMatrix1.PutMatrix(solution);
-            //}
         }
     }
 }

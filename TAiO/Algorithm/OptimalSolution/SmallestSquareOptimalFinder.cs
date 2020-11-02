@@ -4,31 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Algorithm;
+using Algorithm.Heuristic;
 using Algorithm.Model;
 
 namespace TAiO
 {
-    public class SmallestSquareOptimalFinder
+    public class SmallestSquareOptimalFinder : SmallestSquareFinder
     {
-        public SmallestSquareOptimalFinder(List<Piece> pieces)
+
+        private readonly PieceLocationFinder pieceLocationFinder = new PieceLocationFinder();
+        public SmallestSquareOptimalFinder()
         {
-            this.pieces = pieces;
+            this.Pieces = new List<Piece>();
         }
 
-        private List<Piece> pieces;
-        public Board Board { get; private set; }
-
-        public EventHandler OnBoardUpdate;
-        public List<int[,]> Solutions = new List<int[,]>();
-        /// <summary>
-        /// zapisuje informacje o ulozeniu klockow w danym rozwiazaniu - do sprawdzenia czy juz znalezlismy takie rozwiazanie
-        /// </summary>
-        public List<(int pieceIndex, Point firstElementLocation, int rotation)> solutionNiemampomyslunanazwe;
-        private readonly PieceLocationFinder pieceLocationFinder = new PieceLocationFinder();
-
-        public List<int[,]> CalculateSolutions()
+        public override List<int[,]> CalculateSolutions()
         {
-            if (!arePiecesValid())
+            if (!ArePiecesValid())
             {
                 throw new Exception("Invalid input");
             }
@@ -49,40 +41,36 @@ namespace TAiO
         #region Private methods
         private int CalculateInitialBoardSize()
         {
-            var piecesArea = pieces.Aggregate(0, (area, piece) => area + piece.Size);
+            var piecesArea = Pieces.Aggregate(0, (area, piece) => area + piece.Size);
             return (int)Math.Ceiling(Math.Sqrt(piecesArea));
         }
-
-        private bool arePiecesValid()
+        private bool ArePiecesValid()
         {
-            if (pieces == null)
+            if (Pieces == null)
             {
                 return false;
             }
 
-            if (pieces.Count == 0)
+            if (Pieces.Count == 0)
             {
                 return true;
             }
 
-            var firstPieceSize = pieces[0].Size;
-            return pieces.All(a => a.Size == firstPieceSize);
+            var firstPieceSize = Pieces[0].Size;
+            return Pieces.All(a => a.Size == firstPieceSize);
         }
-
         private void F(int pieceIndex, List<int[,]> Solutions)
         {
-            if (pieceIndex >= pieces.Count)
+            if (pieceIndex >= Pieces.Count)
             {
                 Solutions.Add(Board.Segments.ToPrintableMatrix());
                 return;
             }
 
-            var currentPiece = pieces[pieceIndex];
+            var currentPiece = Pieces[pieceIndex];
             //F.1
-            int rotationsCounter = 0;
             //F.2 - F.4
             
-
             for (int i = 0; i < 4; i++)
             {
                 var availableLocations = pieceLocationFinder.GetAvailableLocations(Board, currentPiece);
@@ -99,15 +87,8 @@ namespace TAiO
             }
             
         }
-
         private void SetPieceOnBoard(Point location, Piece piece, int pieceValue)
         {
-            
-
-           // var copy = Board.Segments.ToPrintableMatrix().Clone() as int[,]; 
-           //OnBoardUpdate?.Invoke(copy, null);
-
-
             var pieceBoardLocation = piece.GetBoardLocation(location);
             foreach (var boardLocation in pieceBoardLocation)
             {
@@ -116,5 +97,14 @@ namespace TAiO
         }
 
         #endregion
+    }
+
+    public abstract class SmallestSquareFinder
+    {
+        public List<Piece> Pieces { get; set; }
+        public Board Board { get; protected set; }
+        public List<int[,]> Solutions = new List<int[,]>();
+
+        public abstract List<int[,]> CalculateSolutions();
     }
 }

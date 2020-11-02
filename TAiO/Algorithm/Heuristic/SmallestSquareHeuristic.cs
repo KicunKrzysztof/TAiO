@@ -1,41 +1,40 @@
-﻿using System;
+﻿using Algorithm.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Algorithm;
-using Algorithm.Model;
+using TAiO;
 
 namespace Algorithm.Heuristic
 {
-    public class SmallestSquareHeuristic
+    public class SmallestSquareHeuristic : SmallestSquareFinder
     {
-        public SmallestSquareHeuristic(List<Piece> pieces)
+        private readonly PieceLocationFinderHeuristic locationFinder = new PieceLocationFinderHeuristic();
+        public SmallestSquareHeuristic()
         {
-            this.pieces = pieces;
+            this.Pieces = new List<Piece>();
         }
 
-        private List<Piece> pieces;
-        public Board Board { get; private set; }
-        public PieceLocationFinderHeuristic locationFinder = new PieceLocationFinderHeuristic();
-
-        public int[,] CalculateSolution()
+        public override List<int[,]> CalculateSolutions()
         {
-            foreach(Piece p in pieces)
+            if (Pieces == null || Pieces.Count == 0)
+            {
+                return new List<int[,]>();
+            }
+            foreach (Piece p in Pieces)
             {
                 Console.WriteLine(p.ToString());
             }
             Board = new Board(CalculateInitialBoardSize());
             SetFirstPiece();
             BoardExt.ToConsole(Board);
-            for (int i = 1; i < pieces.Count; i++)
+            for (int i = 1; i < Pieces.Count; i++)
             {
                 int r = 0;
                 var L = new List<HeuristicTrio>();
                 while (true)
                 {
-                    L = L.Concat(locationFinder.FindPossibleLocations(Board, pieces[i], r)).ToList();
-                    pieces[i].RotateRight();
+                    L = L.Concat(locationFinder.FindPossibleLocations(Board, Pieces[i], r)).ToList();
+                    Pieces[i].RotateRight();
                     r++;
                     if (r == 3)
                     {
@@ -52,22 +51,23 @@ namespace Algorithm.Heuristic
                 }
                 var best_location = L.Max();
                 for (int k = 0; k < best_location.RotationCounter; k++)
-                    pieces[i].RotateRight();
-                SetPiece(pieces[i], best_location.Segment, i+1);
+                    Pieces[i].RotateRight();
+                SetPiece(Pieces[i], best_location.Segment, i + 1);
                 BoardExt.ToConsole(Board);
             }
-            return Board.Segments.ToPrintableMatrix();
+
+            return new List<int[,]> { Board.Segments.ToPrintableMatrix() };
         }
 
         private int CalculateInitialBoardSize()
         {
-            var piecesArea = pieces.Aggregate(0, (area, piece) => area + piece.Size);
+            var piecesArea = Pieces.Aggregate(0, (area, piece) => area + piece.Size);
             return (int)Math.Ceiling(Math.Sqrt(piecesArea));
         }
         private void SetFirstPiece()
         {
-            Point location = PieceExtensions.FindFirstLocationHeuristic(pieces[0]);
-            var pieceBoardLocation = pieces[0].GetBoardLocation(location);
+            Point location = PieceExtensions.FindFirstLocationHeuristic(Pieces[0]);
+            var pieceBoardLocation = Pieces[0].GetBoardLocation(location);
             foreach (var boardLocation in pieceBoardLocation)
             {
                 Board[boardLocation.X, boardLocation.Y].Value = 1;
@@ -76,10 +76,15 @@ namespace Algorithm.Heuristic
         private void SetPiece(Piece p, Point location, int value)
         {
             var piece_location_list = PieceExtensions.GetBoardLocation(p, location);
-            foreach(Point segment in piece_location_list)
+            foreach (Point segment in piece_location_list)
             {
                 Board.Segments[segment.X, segment.Y].Value = value;
             }
         }
+    }
+
+    public interface ISmallestSquareFinder
+    {
+        List<int[,]> CalculateSolutions();
     }
 }
