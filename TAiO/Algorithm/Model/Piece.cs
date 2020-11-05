@@ -26,6 +26,15 @@ namespace Algorithm.Model
             }
             return text;
         }
+        public Piece DeepCopy()
+        {
+            List<Point> new_points = new List<Point>();
+            foreach(Point p in Segments)
+            {
+                new_points.Add(p.DeepCopy());
+            }
+            return new Piece(new_points);
+        }
     }
 
     public static class PieceExtensions

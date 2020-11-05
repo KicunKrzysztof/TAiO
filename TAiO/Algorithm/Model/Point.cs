@@ -37,5 +37,10 @@ namespace Algorithm
         {
             return (X << 2) ^ Y;
         }
+
+        public Point DeepCopy()
+        {
+            return new Point(X, Y);
+        }
     }
 }

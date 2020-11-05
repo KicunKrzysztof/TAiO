@@ -50,8 +50,6 @@ namespace TAiO
             InitializeComponent();
         }
 
-
-
         private void optimalButton(object sender, EventArgs e)
         {
             Start(AlgorithmType.Optimal);
@@ -64,7 +62,27 @@ namespace TAiO
 
         private void Start(AlgorithmType type)
         {
-            var solutions = alghoritmRunner.Run(type, (int)numericUpDown1.Value, (int)numericUpDown2.Value);
+            List<int[,]> solutions = null;
+            if (radioButton1.Checked)
+            {
+                solutions = alghoritmRunner.Run(type, (int)numericUpDown1.Value, (int)numericUpDown2.Value);
+            }
+            else
+            {
+                List<int> n_list = InputManagement.ParseNList(textBox1.Text);
+                if (n_list == null)
+                    return;
+                if(n_list.Count == 1)
+                {
+                    solutions = alghoritmRunner.Run(type, (int)numericUpDown1.Value, n_list[0]) ;
+                }
+                else
+                {
+                    solutions = alghoritmRunner.Run(type, (int)numericUpDown1.Value, n_list);
+                }
+            }
+            if (solutions == null)
+                return;
             Task.Run((() =>
             {
                 foreach (var solution in solutions)
@@ -73,7 +91,6 @@ namespace TAiO
                     Task.Delay(300).Wait();
                 }
             }));
-
         }
     }
 }

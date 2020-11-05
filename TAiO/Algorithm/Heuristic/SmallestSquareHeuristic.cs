@@ -67,6 +67,8 @@ namespace Algorithm.Heuristic
             var pieceBoardLocation = Pieces[0].GetBoardLocation(location);
             foreach (var boardLocation in pieceBoardLocation)
             {
+                if (boardLocation.X >= Board.Size || boardLocation.Y >= Board.Size)
+                    Board = BoardExt.ExtendBoard(Board);
                 Board[boardLocation.X, boardLocation.Y].Value = 1;
             }
         }

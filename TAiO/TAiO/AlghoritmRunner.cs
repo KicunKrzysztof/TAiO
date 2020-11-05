@@ -47,7 +47,19 @@ namespace TAiO
             smallestSquareFinder.Pieces = pieces;
             var solutions = smallestSquareFinder.CalculateSolutions();
             return solutions;
-
+        }
+        public List<int[,]> Run(AlgorithmType algorithmType, int pieceSize, List<int> n_list)
+        {
+            PredefinedPieces generator = GeneratorMapper.Map(pieceSize);
+            if (generator == null)
+                return null;
+            var pieces = generator.GeneratePieces(n_list);
+            if (pieces == null)
+                return null;
+            var smallestSquareFinder = AlghoritmMapper.Map(algorithmType);
+            smallestSquareFinder.Pieces = pieces;
+            var solutions = smallestSquareFinder.CalculateSolutions();
+            return solutions;
         }
     }
 
@@ -61,6 +73,22 @@ namespace TAiO
                     return new SmallestSquareHeuristic();
                 case AlgorithmType.Optimal:
                     return new SmallestSquareOptimalFinder();
+                default:
+                    return null;
+            }
+        }
+    }
+
+    public class GeneratorMapper
+    {
+        public static PredefinedPieces Map(int pieceSize)
+        {
+            switch (pieceSize)
+            {
+                case 5:
+                    return new Pentomino();
+                case 6:
+                    return null;
                 default:
                     return null;
             }
