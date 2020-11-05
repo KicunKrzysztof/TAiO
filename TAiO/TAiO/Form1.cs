@@ -15,6 +15,7 @@ using Algorithm;
 using Algorithm.Model;
 using Point = Algorithm.Point;
 using Algorithm.Heuristic;
+using System.IO;
 
 namespace TAiO
 {
@@ -62,24 +63,31 @@ namespace TAiO
 
         private void Start(AlgorithmType type)
         {
-            List<int[,]> solutions = null;
             if (radioButton1.Checked)
             {
-                solutions = alghoritmRunner.Run(type, (int)numericUpDown1.Value, (int)numericUpDown2.Value);
+                StartJob(new Job((int)numericUpDown1.Value, new List<int>() { (int)numericUpDown2.Value}, type));
             }
             else
             {
                 List<int> n_list = InputManagement.ParseNList(textBox1.Text);
                 if (n_list == null)
                     return;
-                if(n_list.Count == 1)
-                {
-                    solutions = alghoritmRunner.Run(type, (int)numericUpDown1.Value, n_list[0]) ;
-                }
-                else
-                {
-                    solutions = alghoritmRunner.Run(type, (int)numericUpDown1.Value, n_list);
-                }
+                StartJob(new Job((int)numericUpDown1.Value, n_list, type));
+            }
+        }
+
+        private void StartJob(Job job)
+        {
+            List<int[,]> solutions = new List<int[,]>();
+            if (job.NList == null)
+                return;
+            if (job.NList.Count == 1)
+            {
+                solutions = alghoritmRunner.Run(job.AlgorithmType, job.PieceSize, job.NList[0]);
+            }
+            else
+            {
+                solutions = alghoritmRunner.Run(job.AlgorithmType, job.PieceSize, job.NList);
             }
             if (solutions == null)
                 return;
@@ -89,6 +97,40 @@ namespace TAiO
                 {
                     tetrisMatrix1.PutMatrix(solution);
                     Task.Delay(300).Wait();
+                }
+            }));
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var fileContent = string.Empty;
+            var filePath = string.Empty;
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = "c:\\";
+                openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    filePath = openFileDialog.FileName;
+                    var fileStream = openFileDialog.OpenFile();
+
+                    using (StreamReader reader = new StreamReader(fileStream))
+                    {
+                        fileContent = reader.ReadToEnd();
+                    }
+                }
+            }
+            var jobs = InputManagement.ParseFile(fileContent);
+            Task.Run((() =>
+            {
+                foreach (var job in jobs)
+                {
+                    StartJob(job);
+                    Task.Delay(1000).Wait();
                 }
             }));
         }
