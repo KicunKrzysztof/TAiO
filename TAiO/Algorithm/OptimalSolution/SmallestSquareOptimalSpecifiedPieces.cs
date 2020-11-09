@@ -72,15 +72,15 @@ namespace Algorithm.OptimalSolution
             {
                 var cur = new SolutionRow[solutionRows.Count];
 
-                foreach (var solution in solutions)
-                {
+                //foreach (var solution in solutions)
+                //{
 
-                    var alreadyFound = CompareLists(solution.solutionRows.ToList(), solutionRows.ToList());
-                    if (alreadyFound)
-                    {
-                        return;
-                    }
-                }
+                //    var alreadyFound = CompareLists(solution.solutionRows.ToList(), solutionRows.ToList());
+                //    if (alreadyFound)
+                //    {
+                //        return;
+                //    }
+                //}
 
 
                 solutionRows.CopyTo(cur, 0);
