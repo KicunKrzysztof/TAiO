@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Algorithm;
 using Algorithm.Model;
+using Microsoft.Diagnostics.Tracing.Parsers.AspNet;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests
@@ -86,6 +87,45 @@ namespace Tests
             var solutionComparer = new SolutionComparer();
 
             Assert.IsFalse(solutionComparer.AreEqual(solA, solB));
+        }
+
+        [TestMethod]
+        public void ArePiecesEqual()
+        {
+
+                var piece = new Piece(new List<Point>
+            {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(2, 0),
+                new Point(3, 0),
+            });
+
+                var other = piece.RotateRight().RotateRight();
+
+            
+
+            Assert.IsTrue(piece.Compare(other));
+        }
+
+        [TestMethod]
+        public void PiecesTOUnique()
+        {
+
+            var piece = new Piece(new List<Point>
+            {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(2, 0),
+                new Point(3, 0),
+            });
+
+            var other = piece.RotateRight().RotateRight();
+
+            var pieces = new List<Piece>{piece, other};
+            var uniqueFinder = new UniquePiecesFinder();
+
+            Assert.IsTrue(uniqueFinder.FindUniquePieces(pieces).Count == 1);
         }
     }
 }

@@ -71,7 +71,7 @@ namespace TAiO
         {
             if (generateRadio.Checked)
             {
-                StartJob(new Job((int)pieceSize.Value, new List<int>() { (int)pieceCount.Value}, type));
+                StartJob(new Job((int)pieceSize.Value, new List<int>() { (int)pieceCount.Value }, type));
             }
             else
             {
@@ -89,22 +89,24 @@ namespace TAiO
                 return;
             if (job.NList.Count == 1)
             {
-          
                 {
                     solutions = alghoritmRunner.Run(job.AlgorithmType, job.PieceSize, job.NList[0]);
-
                 }
             }
             else
             {
-        
+                if (job.AlgorithmType == AlgorithmType.Optimal)
+                {
+                    solutions = alghoritmRunner.RunPredefined(job.PieceSize, job.NList);
+                }
+                else
                 {
                     solutions = alghoritmRunner.Run(job.AlgorithmType, job.PieceSize, job.NList);
                 }
             }
             solutions = solutions.OrderBy(a => Guid.NewGuid()).ToList();
             SetSolutions(solutions);
-           
+
         }
 
         private void ShowSolutions(List<Solution> solutions)
@@ -208,5 +210,6 @@ namespace TAiO
             sequenceTextBox.Visible = false;
             pieceCount.Enabled = true;
         }
+
     }
 }

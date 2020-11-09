@@ -29,30 +29,30 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.solutionsLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.pieceSize = new System.Windows.Forms.NumericUpDown();
             this.pieceCount = new System.Windows.Forms.NumericUpDown();
-            this.sequenceTextBox = new System.Windows.Forms.TextBox();
-            this.sequenceFileButton = new System.Windows.Forms.Button();
-            this.solutionRange = new System.Windows.Forms.TrackBar();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.generateRadio = new System.Windows.Forms.RadioButton();
             this.sequenceRadio = new System.Windows.Forms.RadioButton();
+            this.solutionsLabel = new System.Windows.Forms.Label();
+            this.solutionRange = new System.Windows.Forms.TrackBar();
             this.sequenceLabel = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.sequenceTextBox = new System.Windows.Forms.TextBox();
+            this.sequenceFileButton = new System.Windows.Forms.Button();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tetrisMatrix1 = new TAiO.TetrisMatrix();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pieceSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pieceCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.solutionRange)).BeginInit();
-            this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tetrisMatrix1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -74,21 +74,10 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 114F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 95F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(428, 768);
             this.tableLayoutPanel2.TabIndex = 3;
-            // 
-            // solutionsLabel
-            // 
-            this.solutionsLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.solutionsLabel.AutoSize = true;
-            this.solutionsLabel.Location = new System.Drawing.Point(180, 350);
-            this.solutionsLabel.Name = "solutionsLabel";
-            this.solutionsLabel.Size = new System.Drawing.Size(67, 13);
-            this.solutionsLabel.TabIndex = 18;
-            this.solutionsLabel.Text = "Rozwiązania";
-            this.solutionsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel3
             // 
@@ -116,18 +105,6 @@
             this.tableLayoutPanel3.Size = new System.Drawing.Size(424, 268);
             this.tableLayoutPanel3.TabIndex = 14;
             // 
-            // button1
-            // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button1.Location = new System.Drawing.Point(214, 210);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(208, 26);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "Heurystyczny";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.heuristicButton);
-            // 
             // button2
             // 
             this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -139,6 +116,18 @@
             this.button2.Text = "Optymalny";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.optimalButton);
+            // 
+            // button1
+            // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button1.Location = new System.Drawing.Point(214, 210);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(208, 26);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Heurystyczny";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.heuristicButton);
             // 
             // label1
             // 
@@ -208,53 +197,6 @@
             0,
             0});
             // 
-            // sequenceTextBox
-            // 
-            this.sequenceTextBox.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.sequenceTextBox.Location = new System.Drawing.Point(2, 6);
-            this.sequenceTextBox.Margin = new System.Windows.Forms.Padding(2);
-            this.sequenceTextBox.Name = "sequenceTextBox";
-            this.sequenceTextBox.Size = new System.Drawing.Size(262, 20);
-            this.sequenceTextBox.TabIndex = 15;
-            // 
-            // sequenceFileButton
-            // 
-            this.sequenceFileButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.sequenceFileButton.Location = new System.Drawing.Point(268, 2);
-            this.sequenceFileButton.Margin = new System.Windows.Forms.Padding(2);
-            this.sequenceFileButton.Name = "sequenceFileButton";
-            this.sequenceFileButton.Size = new System.Drawing.Size(150, 29);
-            this.sequenceFileButton.TabIndex = 16;
-            this.sequenceFileButton.Text = "Z pliku";
-            this.sequenceFileButton.UseVisualStyleBackColor = true;
-            this.sequenceFileButton.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // solutionRange
-            // 
-            this.solutionRange.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.solutionRange.Location = new System.Drawing.Point(3, 375);
-            this.solutionRange.Name = "solutionRange";
-            this.solutionRange.Size = new System.Drawing.Size(422, 33);
-            this.solutionRange.TabIndex = 17;
-            this.solutionRange.Scroll += new System.EventHandler(this.solutionRange_Scroll);
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(191)))), ((int)(((byte)(244)))));
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 434F));
-            this.tableLayoutPanel1.Controls.Add(this.tetrisMatrix1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1190, 774);
-            this.tableLayoutPanel1.TabIndex = 0;
-            // 
             // generateRadio
             // 
             this.generateRadio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -280,6 +222,26 @@
             this.sequenceRadio.UseVisualStyleBackColor = true;
             this.sequenceRadio.CheckedChanged += new System.EventHandler(this.sequenceRadio_CheckedChanged);
             // 
+            // solutionsLabel
+            // 
+            this.solutionsLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.solutionsLabel.AutoSize = true;
+            this.solutionsLabel.Location = new System.Drawing.Point(180, 350);
+            this.solutionsLabel.Name = "solutionsLabel";
+            this.solutionsLabel.Size = new System.Drawing.Size(67, 13);
+            this.solutionsLabel.TabIndex = 18;
+            this.solutionsLabel.Text = "Rozwiązania";
+            this.solutionsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // solutionRange
+            // 
+            this.solutionRange.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.solutionRange.Location = new System.Drawing.Point(3, 375);
+            this.solutionRange.Name = "solutionRange";
+            this.solutionRange.Size = new System.Drawing.Size(422, 33);
+            this.solutionRange.TabIndex = 17;
+            this.solutionRange.Scroll += new System.EventHandler(this.solutionRange_Scroll);
+            // 
             // sequenceLabel
             // 
             this.sequenceLabel.AutoSize = true;
@@ -300,6 +262,44 @@
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(422, 30);
             this.flowLayoutPanel1.TabIndex = 23;
+            // 
+            // sequenceTextBox
+            // 
+            this.sequenceTextBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.sequenceTextBox.Location = new System.Drawing.Point(2, 6);
+            this.sequenceTextBox.Margin = new System.Windows.Forms.Padding(2);
+            this.sequenceTextBox.Name = "sequenceTextBox";
+            this.sequenceTextBox.Size = new System.Drawing.Size(262, 20);
+            this.sequenceTextBox.TabIndex = 15;
+            // 
+            // sequenceFileButton
+            // 
+            this.sequenceFileButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.sequenceFileButton.Location = new System.Drawing.Point(268, 2);
+            this.sequenceFileButton.Margin = new System.Windows.Forms.Padding(2);
+            this.sequenceFileButton.Name = "sequenceFileButton";
+            this.sequenceFileButton.Size = new System.Drawing.Size(150, 29);
+            this.sequenceFileButton.TabIndex = 16;
+            this.sequenceFileButton.Text = "Z pliku";
+            this.sequenceFileButton.UseVisualStyleBackColor = true;
+            this.sequenceFileButton.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(191)))), ((int)(((byte)(244)))));
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 434F));
+            this.tableLayoutPanel1.Controls.Add(this.tetrisMatrix1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1190, 774);
+            this.tableLayoutPanel1.TabIndex = 0;
             // 
             // tetrisMatrix1
             // 
@@ -328,9 +328,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pieceSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pieceCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.solutionRange)).EndInit();
-            this.tableLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tetrisMatrix1)).EndInit();
             this.ResumeLayout(false);
 

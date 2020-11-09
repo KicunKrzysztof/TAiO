@@ -32,16 +32,10 @@ namespace Algorithm.Model
             if ((obj == null) || !this.GetType().Equals(obj.GetType()))
             {
                 return false;
-            }
-            else
-            {
-                Piece p = (Piece) obj;
-                if (p.Size != Size)
-                {
-                    return false;
-                }
-                return Segments.All(p.Segments.Contains);
-            }
+            } 
+            Piece p = (Piece) obj;
+            return p.Compare(this);
+
         }
 
         public Piece DeepCopy()
@@ -72,6 +66,60 @@ namespace Algorithm.Model
             return piece.Segments.Select(a => new Point(a.X - xDiff, a.Y - yDiff)).ToList();
         }
 
+        public static bool Compare(this Piece piece, Piece other)
+        {
+            if (other == null || piece.Size != other.Size)
+            {
+                return false;
+            }
+
+            var pieceLeftCornerLocation = MoveToLeftTopCorner(piece);
+            var otherLeftCornerLocation = MoveToLeftTopCorner(other);
+
+            return CompareLists(pieceLeftCornerLocation, otherLeftCornerLocation);
+        }
+        public static bool CompareLists<T>(List<T> aListA, List<T> aListB)
+        {
+            if (aListA == null || aListB == null || aListA.Count != aListB.Count)
+                return false;
+            if (aListA.Count == 0)
+                return true;
+            Dictionary<T, int> lookUp = new Dictionary<T, int>();
+            // create index for the first list
+            for (int i = 0; i < aListA.Count; i++)
+            {
+                int count = 0;
+                if (!lookUp.TryGetValue(aListA[i], out count))
+                {
+                    lookUp.Add(aListA[i], 1);
+                    continue;
+                }
+                lookUp[aListA[i]] = count + 1;
+            }
+            for (int i = 0; i < aListB.Count; i++)
+            {
+                int count = 0;
+                if (!lookUp.TryGetValue(aListB[i], out count))
+                {
+                    // early exit as the current value in B doesn't exist in the lookUp (and not in ListA)
+                    return false;
+                }
+                count--;
+                if (count <= 0)
+                    lookUp.Remove(aListB[i]);
+                else
+                    lookUp[aListB[i]] = count;
+            }
+            // if there are remaining elements in the lookUp, that means ListA contains elements that do not exist in ListB
+            return lookUp.Count == 0;
+        }
+        private static List<Point> MoveToLeftTopCorner(Piece piece)
+        {
+            var minX = piece.Segments.Min((a) => a.X);
+            var minY = piece.Segments.Min((a) => a.Y);
+
+            return piece.Segments.Select(a => new Point(a.X - minX, a.Y - minY)).ToList();
+        }
         public static Piece RotateRight(this Piece piece)
         {
             var rotatedSegments = piece.Segments.Select(a => new Point(piece.Size - a.Y - 1, a.X));
@@ -108,6 +156,7 @@ namespace Algorithm.Model
 
             return new Piece(rotatedSegments.ToList());
         }
+
         public static Point FindFirstLocationHeuristic(this Piece piece)
         {
             bool is_on_board = true;

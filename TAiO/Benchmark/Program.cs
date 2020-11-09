@@ -27,7 +27,7 @@ namespace Benchmark
                 .AddExporter(new HtmlExporter())
                 .AddColumnProvider(DefaultColumnProviders.Instance);
 
-            BenchmarkRunner.Run<Benchmark>(config);
+            BenchmarkRunner.Run<HeuristicBenchmark>(config);
         }
     }
     [CsvExporter]
@@ -35,8 +35,8 @@ namespace Benchmark
     public class Benchmark
     {
         private PiecesGenerator piecesGenerator = new PiecesGenerator();
-        private SmallestSquareOptimalFinder smallestSquareOptimal = new SmallestSquareOptimalFinder();
-        private SmallestSquareHeuristic smallestSquareHeuristic = new SmallestSquareHeuristic();
+        private SmallestSquareOptimalFinder smallestSquareOptimal;
+        private SmallestSquareHeuristic smallestSquareHeuristic;
 
         [Params(5, 6)]
         public int PieceSize;
@@ -57,16 +57,16 @@ namespace Benchmark
         [Benchmark]
         public void Optimal()
         {
-            smallestSquareOptimal.pieces = pieces;
+            smallestSquareOptimal = new SmallestSquareOptimalFinder(pieces);
             smallestSquareOptimal.CalculateSolutions();
         }
     }
     [CsvExporter]
-    [SimpleJob(RuntimeMoniker.Net48, baseline: true, warmupCount:0, invocationCount:1, targetCount:1)]
+    [SimpleJob(RuntimeMoniker.Net48, baseline: true, warmupCount:0, invocationCount:1, targetCount:10)]
     public class HeuristicBenchmark
     {
         private PiecesGenerator piecesGenerator = new PiecesGenerator();
-        private SmallestSquareHeuristic smallestSquareHeuristic = new SmallestSquareHeuristic();
+        private SmallestSquareHeuristic smallestSquareHeuristic;
 
         [Params(5, 6)]
         public int PieceSize;
@@ -103,7 +103,7 @@ namespace Benchmark
         [Benchmark]
         public void Heuristic()
         {
-            smallestSquareHeuristic.pieces = pieces;
+            smallestSquareHeuristic  = new SmallestSquareHeuristic(pieces);
             smallestSquareHeuristic.CalculateSolutions();
         }
     }
