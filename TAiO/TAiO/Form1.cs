@@ -104,7 +104,7 @@ namespace TAiO
                     solutions = alghoritmRunner.Run(job.AlgorithmType, job.PieceSize, job.NList);
                 }
             }
-            solutions = solutions.OrderBy(a => Guid.NewGuid()).ToList();
+            solutions = solutions?.OrderBy(a => Guid.NewGuid()).ToList();
             SetSolutions(solutions);
 
         }
