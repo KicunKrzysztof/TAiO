@@ -26,6 +26,24 @@ namespace Algorithm.Model
             }
             return text;
         }
+
+        public override bool Equals(object obj)
+        {
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                Piece p = (Piece) obj;
+                if (p.Size != Size)
+                {
+                    return false;
+                }
+                return Segments.All(p.Segments.Contains);
+            }
+        }
+
         public Piece DeepCopy()
         {
             List<Point> new_points = new List<Point>();

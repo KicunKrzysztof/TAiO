@@ -41,5 +41,51 @@ namespace Tests
             var resul2 = piece.RotateRight();
 
         }
+        [TestMethod]
+        public void AreEqaul()
+        {
+
+            var solA = new int[,]
+            {
+                {1, 2, 2, 2},
+                {1, 3, 3, 4},
+                {1, 3, 3, 4},
+                {1, 0, 0, 4}
+            };
+            var solB = new int[,]
+            {
+                {2, 1, 1, 1},
+                {2, 4, 4, 3},
+                {2, 4, 4, 3},
+                {2, 0, 0, 3}
+            };
+
+            var solutionComparer = new SolutionComparer();
+            
+            Assert.IsTrue(solutionComparer.AreEqual(solA, solB));
+        }
+        [TestMethod]
+        public void AreNotEqaul()
+        {
+
+            var solA = new int[,]
+            {
+                {1, 2, 2, 0},
+                {1, 0, 2, 0},
+                {1, 0, 0, 0},
+                {1, 0, 0, 0}
+            };
+            var solB = new int[,]
+            {
+                {2, 1, 1, 1},
+                {2, 0, 0, 0},
+                {2, 0, 0, 0},
+                {2, 0, 0, 0}
+            };
+
+            var solutionComparer = new SolutionComparer();
+
+            Assert.IsFalse(solutionComparer.AreEqual(solA, solB));
+        }
     }
 }

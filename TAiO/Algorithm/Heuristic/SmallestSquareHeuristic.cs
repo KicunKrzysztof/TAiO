@@ -8,28 +8,34 @@ namespace Algorithm.Heuristic
 {
     public class SmallestSquareHeuristic : SmallestSquareFinder
     {
+        private List<Piece> pieces;
         private readonly PieceLocationFinderHeuristic locationFinder = new PieceLocationFinderHeuristic();
-        public SmallestSquareHeuristic()
+        private List<SolutionRow> solutionRows;
+        public SmallestSquareHeuristic(List<Piece> pieces)
         {
-            this.Pieces = new List<Piece>();
+            this.pieces = pieces;
         }
 
-        public override List<int[,]> CalculateSolutions()
+        public override List<Solution> CalculateSolutions()
         {
-            if (Pieces == null || Pieces.Count == 0)
+            if (pieces == null || pieces.Count == 0)
             {
-                return new List<int[,]>();
+                return new List<Solution>();
             }
+
+            solutionRows = new List<SolutionRow>();
             Board = new Board(CalculateInitialBoardSize());
             SetFirstPiece();
-            for (int i = 1; i < Pieces.Count; i++)
+           
+            for (int i = 1; i < pieces.Count; i++)
             {
+                var currentPiece = pieces[i];
                 int r = 0;
                 var L = new List<HeuristicTrio>();
                 while (true)
                 {
-                    L = L.Concat(locationFinder.FindPossibleLocations(Board, Pieces[i], r)).ToList();
-                    Pieces[i] = Pieces[i].RotateRight();
+                    L = L.Concat(locationFinder.FindPossibleLocations(Board, currentPiece, r)).ToList();
+                    currentPiece = currentPiece.RotateRight();
                     r++;
                     if (r == 4)
                     {
@@ -47,30 +53,31 @@ namespace Algorithm.Heuristic
                 var best_location = L.Max();
                 for (int k = 0; k < best_location.RotationCounter; k++)
                 {
-                    Pieces[i] = Pieces[i].RotateRight();
+                    currentPiece = currentPiece.RotateRight();
                 }
-                    
-                SetPiece(Pieces[i], best_location.Segment, i + 1);
+                solutionRows.Add(new SolutionRow(i, best_location.Segment, best_location.RotationCounter, i + 1));
+                SetPiece(currentPiece, best_location.Segment, i + 1);
             }
 
-            return new List<int[,]> { Board.Segments.ToPrintableMatrix() };
+            return new List<Solution>() { new Solution(Board.Size, solutionRows.ToArray(), pieces) };
         }
 
         private int CalculateInitialBoardSize()
         {
-            var piecesArea = Pieces.Aggregate(0, (area, piece) => area + piece.Size);
+            var piecesArea = pieces.Aggregate(0, (area, piece) => area + piece.Size);
             return (int)Math.Ceiling(Math.Sqrt(piecesArea));
         }
         private void SetFirstPiece()
         {
-            Point location = PieceExtensions.FindFirstLocationHeuristic(Pieces[0]);
-            var pieceBoardLocation = Pieces[0].GetBoardLocation(location);
+            Point location = PieceExtensions.FindFirstLocationHeuristic(pieces[0]);
+            var pieceBoardLocation = pieces[0].GetBoardLocation(location);
             foreach (var boardLocation in pieceBoardLocation)
             {
                 if (boardLocation.X >= Board.Size || boardLocation.Y >= Board.Size)
                     Board = BoardExt.ExtendBoard(Board);
                 Board[boardLocation.X, boardLocation.Y].Value = 1;
             }
+            solutionRows.Add(new SolutionRow(0, location, 0, 1));
         }
         private void SetPiece(Piece p, Point location, int value)
         {

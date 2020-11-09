@@ -32,11 +32,20 @@ namespace Algorithm
                 return (X == p.X) && (Y == p.Y);
             }
         }
+        
+        protected bool Equals(Point other)
+        {
+            return X == other.X && Y == other.Y;
+        }
 
         public override int GetHashCode()
         {
-            return (X << 2) ^ Y;
+            unchecked
+            {
+                return (X * 397) ^ Y;
+            }
         }
+
 
         public Point DeepCopy()
         {

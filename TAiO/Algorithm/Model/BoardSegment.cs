@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Algorithm.Model
 {
@@ -17,12 +18,12 @@ namespace Algorithm.Model
 
     public static class BoardSegmentExtensions
     {
+   
         public static int[,] ToPrintableMatrix(this BoardSegment[,] board)
         {
             var size = board.GetLength(0);
             int[,] matrix = new int[size,size];
 
-            
             for (int i = 0; i < size; i++)
             {
                 for (int j = 0; j < size; j++)
@@ -30,7 +31,6 @@ namespace Algorithm.Model
                     matrix[i,j] = board[i, j].Value;
                 }
             }
-            
             return matrix;
         }
 

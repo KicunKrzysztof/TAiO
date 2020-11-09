@@ -39,7 +39,10 @@ namespace TAiO
             for (int i = 0; i < _matrix.GetLength(0); i++)
                 for (int j = 0; j < _matrix.GetLength(0); j++)
                 {
-                    pe.Graphics.FillRectangle(brushes[_matrix[i, j]], j * delta, i * delta, delta, delta);
+                    var brush = _matrix[i, j] < brushes.Count
+                        ? brushes[_matrix[i, j]]
+                        : brushes[_matrix[i, j] % brushes.Count];
+                    pe.Graphics.FillRectangle(brush, j * delta, i * delta, delta, delta);
                 }
             for (int i = 0; i < _colors.Count; i++)
                 brushes[i].Dispose();

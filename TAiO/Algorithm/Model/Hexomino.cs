@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Algorithm.Model
 {
@@ -62,6 +58,23 @@ namespace Algorithm.Model
                 for (int i = 0; i < n_list[n]; i++)
                     generated_pieces.Add(hexominos[n].DeepCopy());
             }
+            return generated_pieces;
+        }
+        public override Dictionary<Piece, int> GeneratePredefinedPieces(List<int> n_list)
+        {
+            if (n_list.Count > 35)
+                return null;
+            var generated_pieces = new Dictionary<Piece, int>();
+            for (int i = 0; i < n_list.Count; i++)
+            {
+                generated_pieces.Add(hexominos[i].DeepCopy(), n_list[i]);
+            }
+
+            for (int i = n_list.Count; i < hexominos.Count; i++)
+            {
+                generated_pieces.Add(hexominos[i].DeepCopy(),0);
+            }
+            
             return generated_pieces;
         }
     }

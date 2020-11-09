@@ -3,52 +3,15 @@ using System.Runtime.InteropServices;
 using Algorithm;
 using Algorithm.Heuristic;
 using Algorithm.Model;
+using Algorithm.OptimalSolution;
 
 namespace TAiO
 {
     public class AlghoritmRunner
     {
         PiecesGenerator piecesGenerator = new PiecesGenerator();
-        public List<int[,]> Run(AlgorithmType algorithmType, int pieceSize, int pieceCount)
-        {
-            var pieces = piecesGenerator.GeneratePieces(pieceCount, pieceSize);
-            //var pieces = new List<Piece>
-            //{
-            //    new Piece(new List<Point>()
-            //    {
-            //        new Point(1,1),
-            //        new Point(0,1),
-            //        new Point(0,2),
-            //        new Point(0,3)
-            //    }),
-            //    new Piece(new List<Point>()
-            //    {
-            //        new Point(1,1),
-            //        new Point(1,2),
-            //        new Point(2,1),
-            //        new Point(2,2)
-            //    }),
-            //    new Piece(new List<Point>()
-            //    {
-            //        new Point(0,1),
-            //        new Point(0,2),
-            //        new Point(0,3),
-            //        new Point(1,2)
-            //    }),
-            //    new Piece(new List<Point>()
-            //    {
-            //        new Point(0,0),
-            //        new Point(1,0),
-            //        new Point(2,0),
-            //        new Point(3,0)
-            //    }),
-            //};
-            var smallestSquareFinder = AlghoritmMapper.Map(algorithmType);
-            smallestSquareFinder.Pieces = pieces;
-            var solutions = smallestSquareFinder.CalculateSolutions();
-            return solutions;
-        }
-        public List<int[,]> Run(AlgorithmType algorithmType, int pieceSize, List<int> n_list)
+
+        public List<Solution> Run(AlgorithmType algorithmType, int pieceSize, List<int> n_list)
         {
             PredefinedPieces generator = GeneratorMapper.Map(pieceSize);
             if (generator == null)
@@ -56,26 +19,45 @@ namespace TAiO
             var pieces = generator.GeneratePieces(n_list);
             if (pieces == null)
                 return null;
-            var smallestSquareFinder = AlghoritmMapper.Map(algorithmType);
-            smallestSquareFinder.Pieces = pieces;
-            var solutions = smallestSquareFinder.CalculateSolutions();
-            return solutions;
+            var smallestSquareFinder = AlghoritmFactory.Create(algorithmType, pieces);
+            return smallestSquareFinder.CalculateSolutions();
+        }
+        public List<Solution> RunPredefined(int pieceSize, List<int> n_list)
+        {
+            PredefinedPieces generator = GeneratorMapper.Map(pieceSize);
+            if (generator == null)
+                return null;
+            var pieces = generator.GeneratePredefinedPieces(n_list);
+            if (pieces == null)
+                return null;
+            var smallestSquareFinder = AlghoritmFactory.CreateOptimalSpecified(pieces);
+            return smallestSquareFinder.CalculateSolutions();
+        }
+        public List<Solution> Run(AlgorithmType algorithmType, int pieceSize, int pieceCount)
+        {
+            var pieces = piecesGenerator.GeneratePieces(pieceCount, pieceSize);
+            var smallestSquareFinder = AlghoritmFactory.Create(algorithmType, pieces);
+            return smallestSquareFinder.CalculateSolutions();
         }
     }
 
-    public class AlghoritmMapper
+    public class AlghoritmFactory
     {
-        public static SmallestSquareFinder Map(AlgorithmType algorithmType)
+        public static SmallestSquareFinder Create(AlgorithmType algorithmType, List<Piece> pieces)
         {
             switch (algorithmType)
             {
                 case AlgorithmType.Heuristic:
-                    return new SmallestSquareHeuristic();
+                    return new SmallestSquareHeuristic(pieces);
                 case AlgorithmType.Optimal:
-                    return new SmallestSquareOptimalFinder();
+                    return new SmallestSquareOptimalFinder(pieces);
                 default:
                     return null;
             }
+        }
+        public static SmallestSquareFinder CreateOptimalSpecified(Dictionary<Piece, int> specifiedPieces)
+        {
+            return new SmallestSquareOptimalSpecifiedPieces(specifiedPieces);
         }
     }
 

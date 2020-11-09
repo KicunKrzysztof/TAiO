@@ -78,16 +78,32 @@ namespace TAiO
 
         private void StartJob(Job job)
         {
-            List<int[,]> solutions = new List<int[,]>();
+            List<Solution> solutions = new List<Solution>();
             if (job.NList == null)
                 return;
             if (job.NList.Count == 1)
             {
-                solutions = alghoritmRunner.Run(job.AlgorithmType, job.PieceSize, job.NList[0]);
+                if (job.AlgorithmType == AlgorithmType.Optimal)
+                {
+                    solutions = alghoritmRunner.RunPredefined(job.PieceSize, job.NList);
+                }
+                else
+                {
+                    solutions = alghoritmRunner.Run(job.AlgorithmType, job.PieceSize, job.NList[0]);
+
+                }
             }
             else
             {
-                solutions = alghoritmRunner.Run(job.AlgorithmType, job.PieceSize, job.NList);
+                if (job.AlgorithmType == AlgorithmType.Optimal)
+                {
+                    solutions = alghoritmRunner.RunPredefined(job.PieceSize, job.NList);
+                }
+                else
+                {
+                    solutions = alghoritmRunner.Run(job.AlgorithmType, job.PieceSize, job.NList);
+
+                }
             }
             if (solutions == null)
                 return;
@@ -95,7 +111,7 @@ namespace TAiO
             {
                 foreach (var solution in solutions)
                 {
-                    tetrisMatrix1.PutMatrix(solution);
+                    tetrisMatrix1.PutMatrix(solution.Board);
                     Task.Delay(300).Wait();
                 }
             }));

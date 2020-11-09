@@ -8,30 +8,29 @@ namespace Algorithm.Model
 {
     public class Pentomino: PredefinedPieces
     {
-        private List<Piece> pentominos;
         public Pentomino()
         {
-            pentominos = new List<Piece>();
-            pentominos.Add(new Piece(new List<Point>() { new Point(0, 0), new Point(1, 0), new Point(2, 0), new Point(3, 0), new Point(4, 0)})); //1
-            pentominos.Add(new Piece(new List<Point>() { new Point(0, 1), new Point(0, 2), new Point(1, 0), new Point(1, 1), new Point(2, 1)})); //2
-            pentominos.Add(new Piece(new List<Point>() { new Point(0, 0), new Point(0, 1), new Point(1, 1), new Point(1, 2), new Point(2, 1)})); //3
-            pentominos.Add(new Piece(new List<Point>() { new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(3, 0), new Point(3, 1)})); //4
-            pentominos.Add(new Piece(new List<Point>() { new Point(0, 0), new Point(1, 0), new Point(2, 0), new Point(3, 0), new Point(3, 1)})); //5
-            pentominos.Add(new Piece(new List<Point>() { new Point(0, 0), new Point(0, 1), new Point(1, 0), new Point(1, 1), new Point(2, 1)})); //6
-            pentominos.Add(new Piece(new List<Point>() { new Point(0, 0), new Point(0, 1), new Point(1, 0), new Point(1, 1), new Point(2, 0)})); //7
-            pentominos.Add(new Piece(new List<Point>() { new Point(0, 1), new Point(1, 1), new Point(2, 0), new Point(2, 1), new Point(3, 0)})); //8
-            pentominos.Add(new Piece(new List<Point>() { new Point(0, 0), new Point(1, 0), new Point(2, 0), new Point(2, 1), new Point(3, 1)})); //9
-            pentominos.Add(new Piece(new List<Point>() { new Point(0, 0), new Point(0, 1), new Point(0, 2), new Point(1, 1), new Point(2, 1)})); //10
-            pentominos.Add(new Piece(new List<Point>() { new Point(0, 0), new Point(0, 2), new Point(1, 0), new Point(1, 1), new Point(1, 2)})); //11
-            pentominos.Add(new Piece(new List<Point>() { new Point(0, 2), new Point(1, 2), new Point(2, 0), new Point(2, 1), new Point(2, 2)})); //12
-            pentominos.Add(new Piece(new List<Point>() { new Point(0, 2), new Point(1, 1), new Point(1, 2), new Point(2, 0), new Point(2, 1)})); //13
-            pentominos.Add(new Piece(new List<Point>() { new Point(0, 1), new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(2, 1)})); //14
-            pentominos.Add(new Piece(new List<Point>() { new Point(0, 1), new Point(1, 0), new Point(1, 1), new Point(2, 1), new Point(3, 1)})); //15
-            pentominos.Add(new Piece(new List<Point>() { new Point(0, 0), new Point(1, 0), new Point(2, 0), new Point(3, 0), new Point(1, 1)})); //16
-            pentominos.Add(new Piece(new List<Point>() { new Point(0, 1), new Point(0, 2), new Point(1, 1), new Point(2, 0), new Point(2, 1)})); //17
-            pentominos.Add(new Piece(new List<Point>() { new Point(0, 0), new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(2, 2)})); //18
+            UniquePieces = new List<Piece>();
+            UniquePieces.Add(new Piece(new List<Point>() { new Point(0, 0), new Point(1, 0), new Point(2, 0), new Point(3, 0), new Point(4, 0)})); //1
+            UniquePieces.Add(new Piece(new List<Point>() { new Point(0, 1), new Point(0, 2), new Point(1, 0), new Point(1, 1), new Point(2, 1)})); //2
+            UniquePieces.Add(new Piece(new List<Point>() { new Point(0, 0), new Point(0, 1), new Point(1, 1), new Point(1, 2), new Point(2, 1)})); //3
+            UniquePieces.Add(new Piece(new List<Point>() { new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(3, 0), new Point(3, 1)})); //4
+            UniquePieces.Add(new Piece(new List<Point>() { new Point(0, 0), new Point(1, 0), new Point(2, 0), new Point(3, 0), new Point(3, 1)})); //5
+            UniquePieces.Add(new Piece(new List<Point>() { new Point(0, 0), new Point(0, 1), new Point(1, 0), new Point(1, 1), new Point(2, 1)})); //6
+            UniquePieces.Add(new Piece(new List<Point>() { new Point(0, 0), new Point(0, 1), new Point(1, 0), new Point(1, 1), new Point(2, 0)})); //7
+            UniquePieces.Add(new Piece(new List<Point>() { new Point(0, 1), new Point(1, 1), new Point(2, 0), new Point(2, 1), new Point(3, 0)})); //8
+            UniquePieces.Add(new Piece(new List<Point>() { new Point(0, 0), new Point(1, 0), new Point(2, 0), new Point(2, 1), new Point(3, 1)})); //9
+            UniquePieces.Add(new Piece(new List<Point>() { new Point(0, 0), new Point(0, 1), new Point(0, 2), new Point(1, 1), new Point(2, 1)})); //10
+            UniquePieces.Add(new Piece(new List<Point>() { new Point(0, 0), new Point(0, 2), new Point(1, 0), new Point(1, 1), new Point(1, 2)})); //11
+            UniquePieces.Add(new Piece(new List<Point>() { new Point(0, 2), new Point(1, 2), new Point(2, 0), new Point(2, 1), new Point(2, 2)})); //12
+            UniquePieces.Add(new Piece(new List<Point>() { new Point(0, 2), new Point(1, 1), new Point(1, 2), new Point(2, 0), new Point(2, 1)})); //13
+            UniquePieces.Add(new Piece(new List<Point>() { new Point(0, 1), new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(2, 1)})); //14
+            UniquePieces.Add(new Piece(new List<Point>() { new Point(0, 1), new Point(1, 0), new Point(1, 1), new Point(2, 1), new Point(3, 1)})); //15
+            UniquePieces.Add(new Piece(new List<Point>() { new Point(0, 0), new Point(1, 0), new Point(2, 0), new Point(3, 0), new Point(1, 1)})); //16
+            UniquePieces.Add(new Piece(new List<Point>() { new Point(0, 1), new Point(0, 2), new Point(1, 1), new Point(2, 0), new Point(2, 1)})); //17
+            UniquePieces.Add(new Piece(new List<Point>() { new Point(0, 0), new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(2, 2)})); //18
         }
-        override public List<Piece> GeneratePieces(List<int> n_list)
+        public override List<Piece> GeneratePieces(List<int> n_list)
         {
             if (n_list.Count > 18)
                 return null;
@@ -39,8 +38,25 @@ namespace Algorithm.Model
             for (int n = 0; n < n_list.Count; n++)
             {
                 for (int i = 0; i < n_list[n]; i++)
-                    generated_pieces.Add(pentominos[n].DeepCopy());
+                    generated_pieces.Add(UniquePieces[n].DeepCopy());
             }
+            return generated_pieces;
+        }
+        public override Dictionary<Piece, int> GeneratePredefinedPieces(List<int> n_list)
+        {
+            if (n_list.Count > 18)
+                return null;
+            var generated_pieces = new Dictionary<Piece, int>();
+            for (int i = 0; i < n_list.Count; i++)
+            {
+                generated_pieces.Add(UniquePieces[i].DeepCopy(), n_list[i]);
+            }
+
+            for (int i = n_list.Count; i < UniquePieces.Count; i++)
+            {
+                generated_pieces.Add(UniquePieces[i].DeepCopy(), 0);
+            }
+
             return generated_pieces;
         }
     }

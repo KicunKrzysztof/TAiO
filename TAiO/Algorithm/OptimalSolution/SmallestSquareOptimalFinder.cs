@@ -1,91 +1,80 @@
-﻿using System;
+﻿using Algorithm;
+using Algorithm.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Algorithm;
-using Algorithm.Heuristic;
-using Algorithm.Model;
 
 namespace TAiO
 {
     public class SmallestSquareOptimalFinder : SmallestSquareFinder
     {
-
+        private List<Piece> pieces;
+        private Stack<SolutionRow> solutionRows;
+        private List<Solution> solutions;
         private readonly PieceLocationFinder pieceLocationFinder = new PieceLocationFinder();
-        public SmallestSquareOptimalFinder()
+        private readonly SolutionComparer solutionComparer = new SolutionComparer();
+        public SmallestSquareOptimalFinder(List<Piece> pieces)
         {
-            this.Pieces = new List<Piece>();
+            this.pieces = pieces;
         }
-
-        public override List<int[,]> CalculateSolutions()
+        public override List<Solution> CalculateSolutions()
         {
-            if (!ArePiecesValid())
+            if (pieces == null || pieces.Count == 0)
             {
-                throw new Exception("Invalid input");
+                return new List<Solution>();
             }
+            solutions = new List<Solution>();
+            solutionRows = new Stack<SolutionRow>();
 
             //1.1
-            Solutions = new List<int[,]>();
             var boardSize = CalculateInitialBoardSize();
             do
             {
                 Board = new Board(boardSize);
-                F(0, Solutions);
+                F(0);
                 boardSize++;
-            } while (!Solutions.Any());
+            } while (!solutions.Any());
 
-            return Solutions;
+            return solutions;
         }
 
         #region Private methods
         private int CalculateInitialBoardSize()
         {
-            var piecesArea = Pieces.Aggregate(0, (area, piece) => area + piece.Size);
+            var piecesArea = pieces.Aggregate(0, (area, piece) => area + piece.Size);
             return (int)Math.Ceiling(Math.Sqrt(piecesArea));
         }
-        private bool ArePiecesValid()
+        private void F(int pieceIndex)
         {
-            if (Pieces == null)
+            if (pieceIndex >= pieces.Count)
             {
-                return false;
-            }
-
-            if (Pieces.Count == 0)
-            {
-                return true;
-            }
-
-            var firstPieceSize = Pieces[0].Size;
-            return Pieces.All(a => a.Size == firstPieceSize);
-        }
-        private void F(int pieceIndex, List<int[,]> Solutions)
-        {
-            if (pieceIndex >= Pieces.Count)
-            {
-                Solutions.Add(Board.Segments.ToPrintableMatrix());
+                // var currentSolution = Board.Segments.ToPrintableMatrix();
+                var cur = new SolutionRow[solutionRows.Count];
+                solutionRows.CopyTo(cur, 0);
+                solutions.Add(new Solution(Board.Size, cur, pieces));
                 return;
             }
 
-            var currentPiece = Pieces[pieceIndex];
+            var currentPiece = pieces[pieceIndex];
             //F.1
             //F.2 - F.4
-            
-            for (int i = 0; i < 4; i++)
+
+            for (int rotationIndex = 0; rotationIndex < 4; rotationIndex++)
             {
                 var availableLocations = pieceLocationFinder.GetAvailableLocations(Board, currentPiece);
                 foreach (var availableLocation in availableLocations)
                 {
-
-                    SetPieceOnBoard(availableLocation, currentPiece, pieceIndex + 1);
-                    // Board.ToConsole();
-                    F(pieceIndex + 1, Solutions);
+                    var pieceValue = pieceIndex + 1;
+                    solutionRows.Push(new SolutionRow(pieceIndex, new Point(availableLocation.X, availableLocation.Y), rotationIndex,pieceValue));
+                    SetPieceOnBoard(availableLocation, currentPiece, pieceValue);
+                    F(pieceIndex + 1);
                     SetPieceOnBoard(availableLocation, currentPiece, 0);
+                    solutionRows.Pop();
                     //Board.ToConsole();
                 }
                 currentPiece = currentPiece.RotateRight();
             }
-            
+
         }
         private void SetPieceOnBoard(Point location, Piece piece, int pieceValue)
         {
@@ -97,14 +86,5 @@ namespace TAiO
         }
 
         #endregion
-    }
-
-    public abstract class SmallestSquareFinder
-    {
-        public List<Piece> Pieces { get; set; }
-        public Board Board { get; protected set; }
-        public List<int[,]> Solutions = new List<int[,]>();
-
-        public abstract List<int[,]> CalculateSolutions();
     }
 }
