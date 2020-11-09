@@ -1,27 +1,30 @@
-﻿using System;
+﻿using Algorithm.Model;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Algorithm.Model;
 
 namespace Algorithm.Heuristic
 {
     public class PieceLocationFinderHeuristic
     {
-        public List<HeuristicTrio> FindPossibleLocations(Board board, Piece piece, int rotation_count)
+        /// <summary>
+        /// Zwraca liste dostepnych polozen dla danego klocka o danym obrocie
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="piece"></param>
+        /// <param name="rotationCount"></param>
+        /// <returns></returns>
+        public List<HeuristicTrio> FindPossibleLocations(Board board, Piece piece, int rotationCount)
         {
-            var res_list = new List<HeuristicTrio>();
+            var resList = new List<HeuristicTrio>();
             for (int i = 0; i < board.Size; i++)
                 for(int j = 0; j < board.Size; j++)
                 {
-                    var piece_location_list = PieceExtensions.GetBoardLocation(piece, new Point(i, j));
-                    if (!ValidateLocation(board, piece_location_list))
+                    var pieceLocations = PieceExtensions.GetBoardLocation(piece, new Point(i, j));
+                    if (!ValidateLocation(board, pieceLocations))
                         continue;
-                    int neighbour_count = GetNeighbourCount(board, piece_location_list);
-                    res_list.Add(new HeuristicTrio(new Point(i, j), rotation_count, neighbour_count));
+                    int neighbourCount = GetNeighbourCount(board, pieceLocations);
+                    resList.Add(new HeuristicTrio(new Point(i, j), rotationCount, neighbourCount));
                 }
-            return res_list;
+            return resList;
         }
         private bool ValidateLocation(Board board, List<Point> piece_location_list)
         {

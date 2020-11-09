@@ -6,6 +6,9 @@ using TAiO;
 
 namespace Algorithm.Heuristic
 {
+    /// <summary>
+    /// Algorytm heurystyczny
+    /// </summary>
     public class SmallestSquareHeuristic : SmallestSquareFinder
     {
         private List<Piece> pieces;
@@ -26,7 +29,7 @@ namespace Algorithm.Heuristic
             solutionRows = new List<SolutionRow>();
             Board = new Board(CalculateInitialBoardSize());
             SetFirstPiece();
-           
+
             for (int i = 1; i < pieces.Count; i++)
             {
                 var currentPiece = pieces[i];
@@ -87,10 +90,5 @@ namespace Algorithm.Heuristic
                 Board.Segments[segment.X, segment.Y].Value = value;
             }
         }
-    }
-
-    public interface ISmallestSquareFinder
-    {
-        List<int[,]> CalculateSolutions();
     }
 }

@@ -3,10 +3,12 @@ using Algorithm.Model;
 
 namespace TAiO
 {
+    /// <summary>
+    /// Klasa reprezentująca rozwiazanie jako zbior struktur opisujacych (nr polozonego klocka, jego obrot, lokalizacje na planszy i kolor)
+    /// </summary>
     public class Solution
     {
         private int[,] board;
-        public SolutionRow[] solutionRows;
         private List<Piece> pieces;
 
         public Solution(int boardSize, SolutionRow[] solutionRows, List<Piece> initialSet)
@@ -15,6 +17,7 @@ namespace TAiO
             BoardSize = boardSize;
             pieces = initialSet;
         }
+        public SolutionRow[] solutionRows;
 
         public int BoardSize { get; }
         public int[,] Board
@@ -52,6 +55,5 @@ namespace TAiO
             return newBoard;
         }
 
-   
     }
 }

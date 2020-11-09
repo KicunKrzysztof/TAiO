@@ -49,28 +49,6 @@ namespace Algorithm
             }
             return pieces.Select(segments => new Piece(segments.ToList())).ToList();
         }
-        /// <summary>
-        /// Do testowania generowania. Mozna usunac pozniej
-        /// </summary>
-        /// <param name="piecesCount"></param>
-        /// <param name="piecesSize"></param>
-        /// <returns></returns>
-        public int[,] GetRandomSequenceMatrix(int piecesCount, int piecesSize)
-        {
-            var pieces = GeneratePieces(piecesCount, piecesSize);
-            var board = new int[piecesCount * piecesSize, piecesCount * piecesSize];
-
-            for (int i = 0; i < piecesCount; i++)
-            {
-                var currentStart = i * piecesSize;
-                foreach (var piece in pieces[i].Segments)
-                {
-                    board[currentStart + piece.X, currentStart + piece.Y] = i + 1;
-                }
-            }
-
-            return board;
-        }
         #endregion
 
         #region Private methods

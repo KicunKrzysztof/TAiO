@@ -1,22 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Algorithm.Heuristic
 {
+    /// <summary>
+    /// Struktura danych wykorzystywana w algorytmie heurystycznym
+    /// </summary>
     public class HeuristicTrio : IComparable<HeuristicTrio>
     {
-        public Point Segment { get; private set; }
-        public int RotationCounter { get; private set; }
-        public int NeighbourCounter { get; private set; }
-        public HeuristicTrio(Point seg, int rot_count, int neigh_count)
+        public Point Segment { get; }
+        public int RotationCounter { get; }
+        public int NeighbourCounter { get; }
+        public HeuristicTrio(Point seg, int rotationCount, int neighborsCount)
         {
             Segment = seg;
-            RotationCounter = rot_count;
-            NeighbourCounter = neigh_count;
-
+            RotationCounter = rotationCount;
+            NeighbourCounter = neighborsCount;
         }
 
         public int CompareTo(HeuristicTrio other)

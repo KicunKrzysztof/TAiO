@@ -2,11 +2,12 @@
 
 namespace Algorithm.Model
 {
+    /// <summary>
+    /// Plansza skladajaca sie z segmentow, na ktorej kladzie sie klocki
+    /// </summary>
     public class Board
     {
         public BoardSegment[,] Segments { get; }
-
-
         public int Size => Segments.GetLength(0);
         public Board(int size)
         {
@@ -31,10 +32,12 @@ namespace Algorithm.Model
                 }
             }
         }
-
         public BoardSegment this[int index1, int index2] => Segments[index1, index2];
     }
 
+    /// <summary>
+    /// Metody rozszerzające
+    /// </summary>
     public static class BoardExt
     {
         public static void ToConsole(this Board board)

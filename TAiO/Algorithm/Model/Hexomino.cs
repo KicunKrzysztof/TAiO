@@ -2,6 +2,7 @@
 
 namespace Algorithm.Model
 {
+    //Zbior unikalnych klockow o rozmiarze 6
     public class Hexomino : PredefinedPieces
     {
         private List<Piece> hexominos;

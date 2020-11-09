@@ -14,14 +14,14 @@ namespace TAiO
                 case AlgorithmType.Heuristic:
                     return new SmallestSquareHeuristic(pieces);
                 case AlgorithmType.Optimal:
-                    return new SmallestSquareOptimalSpecifiedPieces(pieces);
+                    return new SmallestSquareOptimalPredefinedPieces(pieces);
                 default:
                     return null;
             }
         }
         public static SmallestSquareFinder CreateOptimalSpecified(Dictionary<Piece, int> specifiedPieces)
         {
-            return new SmallestSquareOptimalSpecifiedPieces(specifiedPieces);
+            return new SmallestSquareOptimalPredefinedPieces(specifiedPieces);
         }
     }
 }

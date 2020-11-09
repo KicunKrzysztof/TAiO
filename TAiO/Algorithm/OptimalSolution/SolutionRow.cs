@@ -2,6 +2,9 @@
 
 namespace TAiO
 {
+    /// <summary>
+    /// struktura opisujaca ulozenie klocka w rozwiazaniu (nr polozonego klocka, obrot, lokalizacja na planszy, kolor)
+    /// </summary>
     public class SolutionRow
     {
         public int PieceIndex { get; }
@@ -16,7 +19,6 @@ namespace TAiO
             Rotation = rotation;
             PieceValue = pieceValue;
         }
-
 
         public override bool Equals(object obj)
         {

@@ -2,6 +2,7 @@
 using Algorithm;
 using Algorithm.Heuristic;
 using Algorithm.Model;
+using Algorithm.OptimalSolution;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Configs;
@@ -15,6 +16,9 @@ using TAiO;
 
 namespace Benchmark
 {
+    /// <summary>
+    /// Obliczanie czasu wykoniania algorytmow
+    /// </summary>
     public class Main2
     {
         public static void Main()
@@ -27,21 +31,21 @@ namespace Benchmark
                 .AddExporter(new HtmlExporter())
                 .AddColumnProvider(DefaultColumnProviders.Instance);
 
-            BenchmarkRunner.Run<HeuristicBenchmark>(config);
+            BenchmarkRunner.Run<OptimalBenchmark>(config);
         }
     }
     [CsvExporter]
-    [SimpleJob(RuntimeMoniker.Net48, baseline: true, warmupCount: 0, invocationCount: 1, targetCount: 10)]
-    public class Benchmark
+    [SimpleJob(RuntimeMoniker.Net48, baseline: true, warmupCount: 0, invocationCount: 1, targetCount: 2)]
+    public class OptimalBenchmark
     {
         private PiecesGenerator piecesGenerator = new PiecesGenerator();
-        private SmallestSquareOptimalFinder smallestSquareOptimal;
+        private SmallestSquareOptimalPredefinedPieces smallestSquareOptimal;
         private SmallestSquareHeuristic smallestSquareHeuristic;
 
         [Params(5, 6)]
         public int PieceSize;
 
-        [Params(1, 2,3,4,5,6,7)]
+        [Params(5,6,7)]
         public int PieceCountOptimal;
 
         
@@ -52,12 +56,13 @@ namespace Benchmark
         public void CreatePieces()
         {
             pieces = piecesGenerator.GeneratePieces(PieceCountOptimal, PieceSize);
+            smallestSquareOptimal = new SmallestSquareOptimalPredefinedPieces(pieces);
         }
 
         [Benchmark]
         public void Optimal()
         {
-            smallestSquareOptimal = new SmallestSquareOptimalFinder(pieces);
+            
             smallestSquareOptimal.CalculateSolutions();
         }
     }

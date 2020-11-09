@@ -2,21 +2,20 @@
 using Algorithm.Model;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using Algorithm.OptimalSolution;
 
 namespace TAiO
 {
+    /// <summary>
+    /// Wersja algorytmu, dla ktorego kazdy klocek jest unikalny - robocza pozostalosc 
+    /// </summary>
     public class SmallestSquareOptimalFinder : SmallestSquareFinder
     {
         private readonly int availableRotations = 4;
-        private List<Piece> pieces;
+        private readonly List<Piece> pieces;
         private Stack<SolutionRow> solutionRows;
         private List<Solution> solutions;
         private readonly PieceLocationFinder pieceLocationFinder = new PieceLocationFinder();
-        private readonly SolutionComparer solutionComparer = new SolutionComparer();
         private readonly SymmetricPieceChecker symmetricPieceChecker;
 
         public SmallestSquareOptimalFinder(List<Piece> pieces)
@@ -26,38 +25,24 @@ namespace TAiO
         }
         public override List<Solution> CalculateSolutions()
         {
-            var unqiueFinder = new UniquePiecesFinder();
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-            var uniquePieces = unqiueFinder.FindUniquePieces(pieces);
-            stopwatch.Stop();
-            Console.WriteLine(stopwatch.Elapsed);
-            var calcualtor = new SmallestSquareOptimalSpecifiedPieces(uniquePieces);
-            return calcualtor.CalculateSolutions();
-            //if (pieces == null || pieces.Count == 0)
-            //{
-            //    return new List<Solution>();
-            //}
-            //solutions = new List<Solution>();
-            //solutionRows = new Stack<SolutionRow>();
+            if (pieces == null || pieces.Count == 0)
+            {
+                return new List<Solution>();
+            }
+            solutions = new List<Solution>();
+            solutionRows = new Stack<SolutionRow>();
 
-            ////1.1
-            //var boardSize = CalculateInitialBoardSize();
-            //do
-            //{
-            //    Board = new Board(boardSize);
-            //    F(0);
-            //    boardSize++;
-            //} while (!solutions.Any());
+            //1.1 - Wyznacz początkowy rozmiar planszy
+            var boardSize = CalculateInitialBoardSize();
+            do
+            {
+                Board = new Board(boardSize);
+                F(0);
+                boardSize++;
+                //jesli nie znaleziono rozwiazania to zwieksz plansze i kontynuuj
+            } while (!solutions.Any());
 
-            //return solutions;
-        }
-
-        #region Private methods
-        private int CalculateInitialBoardSize()
-        {
-            var piecesArea = pieces.Aggregate(0, (area, piece) => area + piece.Size);
-            return (int)Math.Ceiling(Math.Sqrt(piecesArea));
+            return solutions;
         }
         private void F(int pieceIndex)
         {
@@ -97,7 +82,12 @@ namespace TAiO
                 currentPiece = currentPiece.RotateRight();
             }
         }
-
+        #region Helper methods
+        private int CalculateInitialBoardSize()
+        {
+            var piecesArea = pieces.Aggregate(0, (area, piece) => area + piece.Size);
+            return (int)Math.Ceiling(Math.Sqrt(piecesArea));
+        }
         private void SetPieceOnBoard(Point location, Piece piece, int pieceValue)
             {
                 var pieceBoardLocation = piece.GetBoardLocation(location);
@@ -106,7 +96,6 @@ namespace TAiO
                     Board[boardLocation.X, boardLocation.Y].Value = pieceValue;
                 }
             }
-
-            #endregion
+        #endregion
         }
     }

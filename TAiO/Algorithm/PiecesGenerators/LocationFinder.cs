@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Algorithm.PiecesGenerators
 {
+    /// <summary>
+    /// Zwraca liste pol na ktore mozna rozszerzyc aktualnie generowany klocek
+    /// </summary>
     class LocationFinder
     {
         public List<Point> FindAvailableLocations(Point[] previousPoints, int maxX, int maxY)
