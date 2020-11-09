@@ -40,7 +40,6 @@ namespace Benchmark
     {
         private PiecesGenerator piecesGenerator = new PiecesGenerator();
         private SmallestSquareOptimalPredefinedPieces smallestSquareOptimal;
-        private SmallestSquareHeuristic smallestSquareHeuristic;
 
         [Params(5, 6)]
         public int PieceSize;

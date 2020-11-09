@@ -1,6 +1,7 @@
 ﻿using Algorithm.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using TAiO;
 
@@ -55,6 +56,8 @@ namespace Algorithm.OptimalSolution
 
         public override List<Solution> CalculateSolutions()
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             if (uniquePieces == null || uniquePieces.Count == 0)
             {
                 return new List<Solution>();
@@ -71,7 +74,8 @@ namespace Algorithm.OptimalSolution
                 F(0, 0);
                 boardSize++;
             } while (!solutions.Any());
-
+            sw.Stop();
+            Console.WriteLine(sw.Elapsed);
             return solutions;
         }
 
@@ -85,8 +89,7 @@ namespace Algorithm.OptimalSolution
         {
             if (pieceTypeIndex >= uniquePieces.Keys.Count)
             {
-                //AddCurrentSolution();
-                solutions.Add(null);
+                AddCurrentSolution();
                 return;
             }
 

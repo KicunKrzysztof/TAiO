@@ -21,11 +21,12 @@ namespace TAiO
 {
     public partial class Form1 : Form
     {
+        private List<Job> jobs;
         private CancellationToken showSolutionCancellationToken;
         private List<Solution> solutions;
         private readonly AlghoritmRunner alghoritmRunner = new AlghoritmRunner();
         private readonly string solutionsText = "Rozwiązania";
-
+        private int currentJob;
         private static readonly int[,] SampleMatrix =
         {
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -55,6 +56,8 @@ namespace TAiO
             InitializeComponent();
             SetSolutions(new List<Solution>());
             generateRadio.Checked = true;
+            jobsLabel.Visible = false;
+            nextJobButton.Visible = false;
         }
 
         private void optimalButton(object sender, EventArgs e)
@@ -69,21 +72,37 @@ namespace TAiO
 
         private void Start(AlgorithmType type)
         {
+            Job job;
             if (generateRadio.Checked)
             {
-                StartJob(new Job((int)pieceSize.Value, new List<int>() { (int)pieceCount.Value }, type));
+                job = new Job((int) pieceSize.Value, new List<int>() {(int) pieceCount.Value}, type); ;
             }
             else
             {
                 List<int> n_list = InputManagement.ParseNList(sequenceTextBox.Text);
                 if (n_list == null)
                     return;
-                StartJob(new Job((int)pieceSize.Value, n_list, type));
+                job = new Job((int)pieceSize.Value, n_list, type);
             }
+            jobs = new List<Job>{job};
+            currentJob = 1;
+            StartJob(job);
         }
 
         private void StartJob(Job job)
         {
+            if (jobs.Count == 1)
+            {
+                jobsLabel.Visible = false;
+                nextJobButton.Visible = false;
+            }
+            else
+            {
+                jobsLabel.Visible = true;
+                nextJobButton.Visible = true;
+                jobsLabel.Text = $"Zadania {currentJob}/{jobs.Count}";
+            }
+
             List<Solution> solutions = new List<Solution>();
             if (job.NList == null)
                 return;
@@ -146,15 +165,14 @@ namespace TAiO
                     }
                 }
             }
-            var jobs = InputManagement.ParseFile(fileContent);
-            Task.Run((() =>
+            jobs = InputManagement.ParseFile(fileContent);
+
+            if (jobs != null && jobs.Count > 0)
             {
-                foreach (var job in jobs)
-                {
-                    StartJob(job);
-                    Task.Delay(1000).Wait();
-                }
-            }));
+                currentJob = 1;
+                StartJob(jobs[0]);
+            }
+
         }
 
         private void SetSolutions(List<Solution> solutions)
@@ -211,5 +229,21 @@ namespace TAiO
             pieceCount.Enabled = true;
         }
 
+        private void nextJobButton_Click(object sender, EventArgs e)
+        {
+            currentJob++;
+            if (currentJob <= jobs.Count)
+            {
+                StartJob(jobs[currentJob - 1]);
+            }
+
+            if (currentJob == jobs.Count)
+            {
+                jobsLabel.Visible = false;
+                nextJobButton.Visible = false;
+            }
+            
+
+        }
     }
 }

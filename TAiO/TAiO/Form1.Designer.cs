@@ -46,6 +46,9 @@
             this.sequenceFileButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tetrisMatrix1 = new TAiO.TetrisMatrix();
+            this.jobsLabel = new System.Windows.Forms.Label();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.nextJobButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pieceSize)).BeginInit();
@@ -60,6 +63,8 @@
             // 
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Controls.Add(this.nextJobButton, 0, 6);
+            this.tableLayoutPanel2.Controls.Add(this.jobsLabel, 0, 5);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.solutionsLabel, 0, 3);
             this.tableLayoutPanel2.Controls.Add(this.solutionRange, 0, 4);
@@ -68,14 +73,16 @@
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(759, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 7;
+            this.tableLayoutPanel2.RowCount = 9;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 272F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 95F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 82F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(428, 768);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
@@ -311,6 +318,29 @@
             this.tetrisMatrix1.TabIndex = 0;
             this.tetrisMatrix1.TabStop = false;
             // 
+            // jobsLabel
+            // 
+            this.jobsLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.jobsLabel.AutoSize = true;
+            this.jobsLabel.Location = new System.Drawing.Point(191, 421);
+            this.jobsLabel.Name = "jobsLabel";
+            this.jobsLabel.Size = new System.Drawing.Size(46, 13);
+            this.jobsLabel.TabIndex = 24;
+            this.jobsLabel.Text = "Zadanie";
+            this.jobsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // nextJobButton
+            // 
+            this.nextJobButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nextJobButton.Location = new System.Drawing.Point(2, 446);
+            this.nextJobButton.Margin = new System.Windows.Forms.Padding(2);
+            this.nextJobButton.Name = "nextJobButton";
+            this.nextJobButton.Size = new System.Drawing.Size(424, 23);
+            this.nextJobButton.TabIndex = 25;
+            this.nextJobButton.Text = "Następne zadanie";
+            this.nextJobButton.UseVisualStyleBackColor = true;
+            this.nextJobButton.Click += new System.EventHandler(this.nextJobButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -356,6 +386,9 @@
         private System.Windows.Forms.RadioButton sequenceRadio;
         private System.Windows.Forms.Label sequenceLabel;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Button nextJobButton;
+        private System.Windows.Forms.Label jobsLabel;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 
