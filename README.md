@@ -1,4 +1,3 @@
 # Project "Tetris" for university course Algorithms and Computability
 Program finds smallest square to put requested tetris bricks in. Program can perfrorm exact calculation, or faster heuristic.
-Documentation (PL):
-[a link](https://github.com/KicunKrzysztof/TAiO/blob/main/TAiO/taiowysylka/Dokumentacja/KasjaniukKicunDokumentacja.pdf)
+Documentation (PL): [doc](https://github.com/KicunKrzysztof/TAiO/blob/main/TAiO/taiowysylka/Dokumentacja/KasjaniukKicunDokumentacja.pdf)
